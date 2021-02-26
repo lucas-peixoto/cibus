@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 public class TipoDeCozinhaController {
 
     @GetMapping("/ola")
-    @ResponseBody
     public String alo(){
-        return "Ola";
+        return "ola";
     }
 }
