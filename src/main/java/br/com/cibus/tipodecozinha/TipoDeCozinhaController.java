@@ -8,6 +8,6 @@ public class TipoDeCozinhaController {
 
     @GetMapping("/ola")
     public String alo(){
-        return "ola";
+        return "tipo-de-cozinha/listagem";
     }
 }
