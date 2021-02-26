@@ -8,7 +8,7 @@
 
 <form method="post" action="/admin/tipos-de-cozinha">
     <label for="nome">Nome</label>
-    <input id="nome" type="text">
+    <input id="nome" type="text" name="nome">
 
     <input type="submit" value="Salvar">
     <a href="/admin/tipos-de-cozinha">Cancelar</a>
