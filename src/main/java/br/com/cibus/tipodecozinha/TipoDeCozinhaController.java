@@ -4,10 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin/tipos-de-cozinha")
 public class TipoDeCozinhaController {
 
-    @GetMapping("/ola")
-    public String alo(){
+    @GetMapping
+    public String lista(){
         return "tipo-de-cozinha/listagem";
     }
+
+    @GetMapping("/formulario-adicionar")
+    public String formularioAdicionar(){
+        return "tipo-de-cozinha/formulario-adicionar";
+    }
+
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Tipos de cozinha</h1>
-<a href="/">Adicionar</a>
+<a href="/admin/tipos-de-cozinha/formulario-adicionar">Adicionar novo</a>
 <table>
     <tr>
         <th>Nome</th>
@@ -18,8 +18,8 @@
     </tr>
     <tr>
         <td>Arabe</td>
-        <td><a href="/">Editar</a></td>
-        <td><a href="/">Remover</a></td>
+        <td><a href="/admin/tipos-de-cozinha/formulario-editar/1">Editar</a></td>
+        <td><a href="/admin/tipos-de-cozinha/remover/1">Remover</a></td>
     </tr>
 </table>
 </body>
