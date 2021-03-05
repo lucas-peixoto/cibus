@@ -20,7 +20,7 @@
     <c:forEach items="${tiposDeCozinha}" var="tipoDeCozinha">
         <tr>
             <td>${tipoDeCozinha.nome}</td>
-            <td><a href="/admin/tipos-de-cozinha/formulario-editar/${tipoDeCozinha.id}">Editar</a></td>
+            <td><a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}">Editar</a></td>
             <td><a href="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">Remover</a></td>
         </tr>
     </c:forEach>

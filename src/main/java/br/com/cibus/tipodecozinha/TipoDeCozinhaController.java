@@ -65,11 +65,12 @@ public class TipoDeCozinhaController {
 
 
     @PostMapping("/editar/{id}")
-    public String edita(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult){
+    public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
             return "tipo-de-cozinha/formulario-editar";
         }
-        tipoDeCozinhaRepository.save(tipoDeCozinhaForm.toEntity());
+        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity(tipoDeCozinhaRepository);
+        tipoDeCozinhaRepository.save(tipoDeCozinha);
         return "redirect:/admin/tipos-de-cozinha";
     }
 }

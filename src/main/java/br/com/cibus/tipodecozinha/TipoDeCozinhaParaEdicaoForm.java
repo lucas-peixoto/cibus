@@ -1,5 +1,7 @@
 package br.com.cibus.tipodecozinha;
 
+import br.com.cibus.exceptions.NotFoundException;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,8 +33,10 @@ public class TipoDeCozinhaParaEdicaoForm {
         this.nome = nome;
     }
 
-    TipoDeCozinha toEntity() {
-        return new TipoDeCozinha(this.id, this.nome);
+    TipoDeCozinha toEntity(TipoDeCozinhaRepository tipoDeCozinhaRepository) {
+        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaRepository.findById(id).orElseThrow(NotFoundException::new);
+        tipoDeCozinha.setNome(nome);
+        return tipoDeCozinha;
     }
 
 }
