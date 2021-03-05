@@ -5,15 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/tipos-de-cozinha")
@@ -25,13 +20,18 @@ public class TipoDeCozinhaController {
         this.tipoDeCozinhaRepository = tipoDeCozinhaRepository;
     }
 
-    @InitBinder
+    @InitBinder("tipoDeCozinhaForm")
     void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(new CadastroTipoDeCozinhaValidator(tipoDeCozinhaRepository));
     }
 
+    @InitBinder("tipoDeCozinhaParaEdicaoForm")
+    void initBinderEditaCozinha(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(new TipoDeCozinhaParaEdicaoValidator(tipoDeCozinhaRepository));
+    }
+
     @GetMapping
-    public String lista(Model model){
+    public String lista(Model model) {
         List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findAll();
         tiposDeCozinha.forEach(tc -> System.out.println(tc));
         model.addAttribute("tiposDeCozinha", tiposDeCozinha);
@@ -39,14 +39,14 @@ public class TipoDeCozinhaController {
     }
 
     @GetMapping("/novo")
-    public String formularioAdicionar(){
+    public String formularioAdicionar() {
         return "tipo-de-cozinha/formulario-adicionar";
     }
 
     @PostMapping("/novo")
-    public String adiciona(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult){
+    public String adiciona(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult) {
         System.out.println(tipoDeCozinhaForm.getNome());
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
@@ -57,20 +57,22 @@ public class TipoDeCozinhaController {
     }
 
     @GetMapping("/editar/{id}")
-    public String formularioEditar(@PathParam("id") Long id, Model model){
+    public String formularioEditar(@PathVariable("id") Long id, Model model) {
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaRepository.findById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("tipoDeCozinha", tipoDeCozinha);
         return "tipo-de-cozinha/formulario-editar";
     }
 
 
-    @PostMapping("/editar/{id}")
-    public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors()) {
+    @PostMapping("/editar")
+    public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "tipo-de-cozinha/formulario-editar";
         }
+
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity(tipoDeCozinhaRepository);
         tipoDeCozinhaRepository.save(tipoDeCozinha);
+
         return "redirect:/admin/tipos-de-cozinha";
     }
 }
