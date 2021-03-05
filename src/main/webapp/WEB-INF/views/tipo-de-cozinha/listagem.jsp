@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,6 +17,7 @@
         <th></th>
         <th></th>
     </tr>
+    <c:forEach items="${tiposDeCozinha}"></c:forEach>
     <tr>
         <td>Arabe</td>
         <td><a href="/admin/tipos-de-cozinha/formulario-editar/1">Editar</a></td>

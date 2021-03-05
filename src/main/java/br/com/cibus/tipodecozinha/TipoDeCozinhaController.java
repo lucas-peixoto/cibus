@@ -1,8 +1,13 @@
 package br.com.cibus.tipodecozinha;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,10 +22,16 @@ public class TipoDeCozinhaController {
         this.tipoDeCozinhaRepository = tipoDeCozinhaRepository;
     }
 
+    @InitBinder
+    void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(new CadastroTipoDeCozinhaValidator(tipoDeCozinhaRepository));
+    }
+
     @GetMapping
-    public String lista(){
+    public String lista(Model model){
         List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findAll();
         tiposDeCozinha.forEach(tc -> System.out.println(tc));
+        model.addAttribute("tiposDeCozinha", tiposDeCozinha);
         return "tipo-de-cozinha/listagem";
     }
 
@@ -34,10 +45,6 @@ public class TipoDeCozinhaController {
         System.out.println(tipoDeCozinhaForm.getNome());
         if(bindingResult.hasErrors()){
             System.out.println("erro");
-            return "tipo-de-cozinha/formulario-adicionar";
-        }
-
-        if (tipoDeCozinhaRepository.existsByNome(tipoDeCozinhaForm.getNome())) {
             return "tipo-de-cozinha/formulario-adicionar";
         }
 
