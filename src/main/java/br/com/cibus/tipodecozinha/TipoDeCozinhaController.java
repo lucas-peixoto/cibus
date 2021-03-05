@@ -53,4 +53,14 @@ public class TipoDeCozinhaController {
         return "redirect:/admin/tipos-de-cozinha";
     }
 
+    @GetMapping("/editar/{id}")
+    public String formularioEditar(){
+        return "tipo-de-cozinha/formulario-editar";
+    }
+
+
+    @PostMapping("/editar/{id}")
+    public String edita(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult){
+        return "redirect:/admin/tipos-de-cozinha";
+    }
 }
