@@ -17,12 +17,13 @@
         <th></th>
         <th></th>
     </tr>
-    <c:forEach items="${tiposDeCozinha}"></c:forEach>
-    <tr>
-        <td>Arabe</td>
-        <td><a href="/admin/tipos-de-cozinha/formulario-editar/1">Editar</a></td>
-        <td><a href="/admin/tipos-de-cozinha/remover/1">Remover</a></td>
-    </tr>
+    <c:forEach items="${tiposDeCozinha}" var="tipoDeCozinha">
+        <tr>
+            <td>${tipoDeCozinha.nome}</td>
+            <td><a href="/admin/tipos-de-cozinha/formulario-editar/${tipoDeCozinha.id}">Editar</a></td>
+            <td><a href="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">Remover</a></td>
+        </tr>
+    </c:forEach>
 </table>
 </body>
 </html>
