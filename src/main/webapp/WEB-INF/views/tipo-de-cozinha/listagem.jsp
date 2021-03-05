@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Tipos de cozinha</h1>
-<a href="/admin/tipos-de-cozinha/formulario-adicionar">Adicionar novo</a>
+<a href="/admin/tipos-de-cozinha/novo">Adicionar novo</a>
 <table>
     <tr>
         <th>Nome</th>

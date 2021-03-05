@@ -15,19 +15,19 @@ public class TipoDeCozinhaController {
         return "tipo-de-cozinha/listagem";
     }
 
-    @GetMapping("/formulario-adicionar")
+    @GetMapping("/novo")
     public String formularioAdicionar(){
         return "tipo-de-cozinha/formulario-adicionar";
     }
 
-    @PostMapping
+    @PostMapping("/novo")
     public String adiciona(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult){
         System.out.println(tipoDeCozinhaForm.getNome());
         if(bindingResult.hasErrors()){
             System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
-        return "tipo-de-cozinha/listagem";
+        return "redirect:/admin/tipos-de-cozinha";
     }
 
 }
