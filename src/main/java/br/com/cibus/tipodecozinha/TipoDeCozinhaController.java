@@ -36,9 +36,11 @@ public class TipoDeCozinhaController {
             System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
-        if (tipoDeCozinhaRepository.existsByNome(tipoDeCozinhaForm.getNome())) {
 
+        if (tipoDeCozinhaRepository.existsByNome(tipoDeCozinhaForm.getNome())) {
+            return "tipo-de-cozinha/formulario-adicionar";
         }
+
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity();
         tipoDeCozinhaRepository.save(tipoDeCozinha);
         return "redirect:/admin/tipos-de-cozinha";
