@@ -14,4 +14,8 @@ class TipoDeCozinhaForm {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    TipoDeCozinha toEntity() {
+        return new TipoDeCozinha(this.nome);
+    }
 }

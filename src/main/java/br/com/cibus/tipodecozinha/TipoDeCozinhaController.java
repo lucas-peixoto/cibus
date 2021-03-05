@@ -27,7 +27,9 @@ public class TipoDeCozinhaController {
             System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
-        return "redirect:/admin/tipos-de-cozinha";pom
+        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity();
+
+        return "redirect:/admin/tipos-de-cozinha";
     }
 
 }
