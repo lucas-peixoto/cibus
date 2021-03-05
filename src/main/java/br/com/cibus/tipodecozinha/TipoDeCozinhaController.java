@@ -5,13 +5,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/tipos-de-cozinha")
 public class TipoDeCozinhaController {
 
+    private TipoDeCozinhaRepository tipoDeCozinhaRepository;
+
+    public TipoDeCozinhaController(TipoDeCozinhaRepository tipoDeCozinhaRepository) {
+        this.tipoDeCozinhaRepository = tipoDeCozinhaRepository;
+    }
+
     @GetMapping
     public String lista(){
+        List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findAll();
+        tiposDeCozinha.forEach(tc -> System.out.println(tc));
         return "tipo-de-cozinha/listagem";
     }
 
@@ -27,8 +36,11 @@ public class TipoDeCozinhaController {
             System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
-        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity();
+        if (tipoDeCozinhaRepository.existsByNome(tipoDeCozinhaForm.getNome())) {
 
+        }
+        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity();
+        tipoDeCozinhaRepository.save(tipoDeCozinha);
         return "redirect:/admin/tipos-de-cozinha";
     }
 
