@@ -13,9 +13,14 @@ public class TipoDeCozinha {
     private String nome;
 
     @Deprecated
-    TipoDeCozinha() {}
+    protected TipoDeCozinha() {}
 
     public TipoDeCozinha(String nome) {
+        this.nome = nome;
+    }
+
+    public TipoDeCozinha(Long id, String nome) {
+        this.id = id;
         this.nome = nome;
     }
 

@@ -57,15 +57,19 @@ public class TipoDeCozinhaController {
     }
 
     @GetMapping("/editar/{id}")
-    public String formularioEditar(@PathParam("id") Long id){
+    public String formularioEditar(@PathParam("id") Long id, Model model){
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaRepository.findById(id).orElseThrow(NotFoundException::new);
-
+        model.addAttribute("tipoDeCozinha", tipoDeCozinha);
         return "tipo-de-cozinha/formulario-editar";
     }
 
 
     @PostMapping("/editar/{id}")
     public String edita(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return "tipo-de-cozinha/formulario-editar";
+        }
+        tipoDeCozinhaRepository.save(tipoDeCozinhaForm.toEntity());
         return "redirect:/admin/tipos-de-cozinha";
     }
 }
