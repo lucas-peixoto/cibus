@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/tipos-de-cozinha")
 public class TipoDeCozinhaController {
 
     private TipoDeCozinhaRepository tipoDeCozinhaRepository;
@@ -30,7 +29,7 @@ public class TipoDeCozinhaController {
         webDataBinder.addValidators(new TipoDeCozinhaParaEdicaoValidator(tipoDeCozinhaRepository));
     }
 
-    @GetMapping
+    @GetMapping("/admin/tipos-de-cozinha")
     public String lista(Model model) {
         List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findAll();
         tiposDeCozinha.forEach(tc -> System.out.println(tc));
@@ -38,12 +37,12 @@ public class TipoDeCozinhaController {
         return "tipo-de-cozinha/listagem";
     }
 
-    @GetMapping("/novo")
+    @GetMapping("/admin/tipos-de-cozinha/novo")
     public String formularioAdicionar() {
         return "tipo-de-cozinha/formulario-adicionar";
     }
 
-    @PostMapping("/novo")
+    @PostMapping("/admin/tipos-de-cozinha/novo")
     public String adiciona(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult) {
         System.out.println(tipoDeCozinhaForm.getNome());
         if (bindingResult.hasErrors()) {
@@ -56,14 +55,14 @@ public class TipoDeCozinhaController {
         return "redirect:/admin/tipos-de-cozinha";
     }
 
-    @GetMapping("/editar/{id}")
+    @GetMapping("/admin/tipos-de-cozinha/editar/{id}")
     public String formularioEditar(@PathVariable("id") Long id, Model model) {
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaRepository.findById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("tipoDeCozinha", tipoDeCozinha);
         return "tipo-de-cozinha/formulario-editar";
     }
 
-    @PostMapping("/editar")
+    @PostMapping("/admin/tipos-de-cozinha/editar")
     public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "tipo-de-cozinha/formulario-editar";
@@ -75,7 +74,7 @@ public class TipoDeCozinhaController {
         return "redirect:/admin/tipos-de-cozinha";
     }
 
-    @PostMapping("/remover/{id}")
+    @PostMapping("/admin/tipos-de-cozinha/remover/{id}")
     public String remover(@PathVariable("id") Long id) {
         tipoDeCozinhaRepository.deleteById(id);
         return "redirect:/admin/tipos-de-cozinha";
