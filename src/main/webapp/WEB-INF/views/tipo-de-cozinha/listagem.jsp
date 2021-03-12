@@ -21,7 +21,11 @@
         <tr>
             <td>${tipoDeCozinha.nome}</td>
             <td><a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}">Editar</a></td>
-            <td><a href="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">Remover</a></td>
+            <td>
+                <form method="post" action="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">
+                    <button type="submit">Remover</button>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>

@@ -63,7 +63,6 @@ public class TipoDeCozinhaController {
         return "tipo-de-cozinha/formulario-editar";
     }
 
-
     @PostMapping("/editar")
     public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -73,6 +72,12 @@ public class TipoDeCozinhaController {
         TipoDeCozinha tipoDeCozinha = tipoDeCozinhaForm.toEntity(tipoDeCozinhaRepository);
         tipoDeCozinhaRepository.save(tipoDeCozinha);
 
+        return "redirect:/admin/tipos-de-cozinha";
+    }
+
+    @PostMapping("/remover/{id}")
+    public String remover(@PathVariable("id") Long id) {
+        tipoDeCozinhaRepository.deleteById(id);
         return "redirect:/admin/tipos-de-cozinha";
     }
 }
