@@ -2,9 +2,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Tipos de Cozinha</title>
 </head>
 <body>
 
