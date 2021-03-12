@@ -31,7 +31,7 @@ public class TipoDeCozinhaController {
 
     @GetMapping("/admin/tipos-de-cozinha")
     public String lista(Model model) {
-        List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findAll();
+        List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findByOrderByNomeAsc();
         tiposDeCozinha.forEach(tc -> System.out.println(tc));
         model.addAttribute("tiposDeCozinha", tiposDeCozinha);
         return "tipo-de-cozinha/listagem";
