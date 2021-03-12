@@ -59,7 +59,7 @@ public class TipoDeCozinhaController {
         return "tipo-de-cozinha/formulario-editar";
     }
 
-    @PostMapping("/admin/tipos-de-cozinha/editar")
+    @PostMapping("/admin/tipos-de-cozinha/editar/{id}")
     public String edita(@Valid TipoDeCozinhaParaEdicaoForm tipoDeCozinhaForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "tipo-de-cozinha/formulario-editar";
