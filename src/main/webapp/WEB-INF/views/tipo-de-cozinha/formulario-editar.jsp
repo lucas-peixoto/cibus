@@ -10,7 +10,7 @@
 <form method="post" action="/admin/tipos-de-cozinha/editar">
     <input type="hidden" name="id" value="${tipoDeCozinha.id}">
     <label for="nome">Nome</label>
-    <input id="nome" type="text" name="nome" value="${tipoDeCozinha.nome}">
+    <input id="nome" type="text" name="nome" value="${tipoDeCozinha.nome}" maxlength="50" required>
     <form:errors path="tipoDeCozinhaParaEdicaoForm.nome"/>
     <input type="submit" value="Salvar">
     <a href="/admin/tipos-de-cozinha">Cancelar</a>
