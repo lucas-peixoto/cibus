@@ -32,7 +32,6 @@ public class TipoDeCozinhaController {
     @GetMapping("/admin/tipos-de-cozinha")
     public String lista(Model model) {
         List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findByOrderByNomeAsc();
-        tiposDeCozinha.forEach(tc -> System.out.println(tc));
         model.addAttribute("tiposDeCozinha", tiposDeCozinha);
         return "tipo-de-cozinha/listagem";
     }
@@ -44,9 +43,7 @@ public class TipoDeCozinhaController {
 
     @PostMapping("/admin/tipos-de-cozinha/novo")
     public String adiciona(@Valid TipoDeCozinhaForm tipoDeCozinhaForm, BindingResult bindingResult) {
-        System.out.println(tipoDeCozinhaForm.getNome());
         if (bindingResult.hasErrors()) {
-            System.out.println("erro");
             return "tipo-de-cozinha/formulario-adicionar";
         }
 
