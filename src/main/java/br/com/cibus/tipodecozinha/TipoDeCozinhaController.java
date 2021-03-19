@@ -21,7 +21,7 @@ public class TipoDeCozinhaController {
 
     @InitBinder("tipoDeCozinhaForm")
     void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(new CadastroTipoDeCozinhaValidator(tipoDeCozinhaRepository));
+        webDataBinder.addValidators(new TipoDeCozinhaParaAdicaoValidator(tipoDeCozinhaRepository));
     }
 
     @InitBinder("tipoDeCozinhaParaEdicaoForm")
