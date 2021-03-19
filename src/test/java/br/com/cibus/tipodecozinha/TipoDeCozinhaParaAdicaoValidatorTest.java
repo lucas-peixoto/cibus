@@ -1,5 +1,6 @@
 package br.com.cibus.tipodecozinha;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.validation.Errors;
 
@@ -7,16 +8,23 @@ import static org.mockito.Mockito.*;
 
 class TipoDeCozinhaParaAdicaoValidatorTest {
 
+    private TipoDeCozinhaForm tipoDeCozinhaForm;
+    private TipoDeCozinhaRepository repository;
+    private TipoDeCozinhaParaAdicaoValidator tipoDeCozinhaParaAdicaoValidator;
+    private Errors errors;
+
+    @BeforeEach
+    void init() {
+        this.tipoDeCozinhaForm = new TipoDeCozinhaForm();
+        this.repository = mock(TipoDeCozinhaRepository.class);
+        this.tipoDeCozinhaParaAdicaoValidator = new TipoDeCozinhaParaAdicaoValidator(this.repository);
+        this.errors = mock(Errors.class);
+    }
+
     @Test
     void quandoNomeJaExisteDeveDarErro() {
-        TipoDeCozinhaForm tipoDeCozinhaForm = new TipoDeCozinhaForm();
         tipoDeCozinhaForm.setNome("Mexicana");
-
-        TipoDeCozinhaRepository repository = mock(TipoDeCozinhaRepository.class);
         when(repository.existsByNome("Mexicana")).thenReturn(true);
-
-        TipoDeCozinhaParaAdicaoValidator tipoDeCozinhaParaAdicaoValidator = new TipoDeCozinhaParaAdicaoValidator(repository);
-        Errors errors = mock(Errors.class);
 
         tipoDeCozinhaParaAdicaoValidator.validate(tipoDeCozinhaForm, errors);
 
@@ -25,14 +33,8 @@ class TipoDeCozinhaParaAdicaoValidatorTest {
 
     @Test
     void quandoNomeNaoExisteNaoDaErro() {
-        TipoDeCozinhaForm tipoDeCozinhaForm = new TipoDeCozinhaForm();
         tipoDeCozinhaForm.setNome("Mexicana");
-
-        TipoDeCozinhaRepository repository = mock(TipoDeCozinhaRepository.class);
         when(repository.existsByNome("Mexicana")).thenReturn(false);
-
-        TipoDeCozinhaParaAdicaoValidator tipoDeCozinhaParaAdicaoValidator = new TipoDeCozinhaParaAdicaoValidator(repository);
-        Errors errors = mock(Errors.class);
 
         tipoDeCozinhaParaAdicaoValidator.validate(tipoDeCozinhaForm, errors);
 
