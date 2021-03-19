@@ -3,11 +3,11 @@ package br.com.cibus.tipodecozinha;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-public class CadastroTipoDeCozinhaValidator implements Validator {
+public class TipoDeCozinhaParaAdicaoValidator implements Validator {
 
     private TipoDeCozinhaRepository tipoDeCozinhaRepository;
 
-    public CadastroTipoDeCozinhaValidator(TipoDeCozinhaRepository tipoDeCozinhaRepository) {
+    public TipoDeCozinhaParaAdicaoValidator(TipoDeCozinhaRepository tipoDeCozinhaRepository) {
         this.tipoDeCozinhaRepository = tipoDeCozinhaRepository;
     }
 
