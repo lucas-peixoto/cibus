@@ -15,15 +15,16 @@ class TipoDeCozinhaParaAdicaoValidatorTest {
 
     @BeforeEach
     void init() {
-        this.tipoDeCozinhaForm = new TipoDeCozinhaForm();
-        this.repository = mock(TipoDeCozinhaRepository.class);
-        this.tipoDeCozinhaParaAdicaoValidator = new TipoDeCozinhaParaAdicaoValidator(this.repository);
-        this.errors = mock(Errors.class);
+        tipoDeCozinhaForm = new TipoDeCozinhaForm();
+        tipoDeCozinhaForm.setNome("Mexicana");
+
+        repository = mock(TipoDeCozinhaRepository.class);
+        tipoDeCozinhaParaAdicaoValidator = new TipoDeCozinhaParaAdicaoValidator(repository);
+        errors = mock(Errors.class);
     }
 
     @Test
     void quandoNomeJaExisteDeveDarErro() {
-        tipoDeCozinhaForm.setNome("Mexicana");
         when(repository.existsByNome("Mexicana")).thenReturn(true);
 
         tipoDeCozinhaParaAdicaoValidator.validate(tipoDeCozinhaForm, errors);
@@ -33,7 +34,6 @@ class TipoDeCozinhaParaAdicaoValidatorTest {
 
     @Test
     void quandoNomeNaoExisteNaoDaErro() {
-        tipoDeCozinhaForm.setNome("Mexicana");
         when(repository.existsByNome("Mexicana")).thenReturn(false);
 
         tipoDeCozinhaParaAdicaoValidator.validate(tipoDeCozinhaForm, errors);
