@@ -2,6 +2,7 @@ package br.com.cibus.tipodecozinha;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TipoDeCozinhaRepositoryTest {
 
     @Autowired
@@ -54,7 +56,7 @@ class TipoDeCozinhaRepositoryTest {
         assertThat(tiposDeCozinha)
                 .hasSize(6)
                 .extracting("nome")
-                .isSorted();
+                .containsExactly("Árabe", "Baiana", "Chinesa", "Francesa", "Italiana", "Portuguesa");
     }
 
 }
