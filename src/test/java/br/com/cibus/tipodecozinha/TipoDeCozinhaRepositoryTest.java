@@ -39,7 +39,7 @@ class TipoDeCozinhaRepositoryTest {
     }
 
     @Test
-    void naoDeveConfirmarQuandoUmNomeExisteComOIdDiferente() {
+    void naoDeveConfirmarQuandoUmNomeExisteComOMesmoId() {
         TipoDeCozinha americana = tipoDeCozinhaRepository.save(new TipoDeCozinha("Americana"));
 
         boolean existe = tipoDeCozinhaRepository.existsByNomeAndIdNot("Americana", americana.getId());
