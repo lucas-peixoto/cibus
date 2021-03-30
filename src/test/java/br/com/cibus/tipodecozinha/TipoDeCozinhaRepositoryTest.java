@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class TipoDeCozinhaRepositoryTest {
@@ -13,7 +15,7 @@ class TipoDeCozinhaRepositoryTest {
     private TipoDeCozinhaRepository tipoDeCozinhaRepository;
 
     @Test
-    void deveConfirmarQuandoONomeExiste( ) {
+    void deveConfirmarQuandoONomeExiste() {
         tipoDeCozinhaRepository.save(new TipoDeCozinha("Alemã"));
 
         boolean existe = tipoDeCozinhaRepository.existsByNome("Alemã");
@@ -21,9 +23,38 @@ class TipoDeCozinhaRepositoryTest {
     }
 
     @Test
-    void deveConfirmarQuandoONomeNaoExiste( ) {
+    void deveConfirmarQuandoONomeNaoExiste() {
         boolean existe = tipoDeCozinhaRepository.existsByNome("Americana");
         assertThat(existe).isFalse();
+    }
+
+    @Test
+    void deveConfirmarQuandoUmNomeExisteComUmIdDiferente() {
+        TipoDeCozinha azerbaijani = tipoDeCozinhaRepository.save(new TipoDeCozinha("Azerbaijani"));
+
+        boolean existe = tipoDeCozinhaRepository.existsByNomeAndIdNot("Azerbaijani", 0L);
+        assertThat(existe).isTrue();
+    }
+
+    @Test
+    void naoDeveConfirmarQuandoUmNomeExisteComOIdDiferente() {
+        TipoDeCozinha americana = tipoDeCozinhaRepository.save(new TipoDeCozinha("Americana"));
+
+        boolean existe = tipoDeCozinhaRepository.existsByNomeAndIdNot("Americana", americana.getId());
+        assertThat(existe).isFalse();
+    }
+
+    @Test
+    void deveRetornarTudoOrdenadoPorNome() {
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("Portuguesa"));
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("Francesa"));
+
+        List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findByOrderByNomeAsc();
+
+        assertThat(tiposDeCozinha)
+                .hasSize(6)
+                .extracting("nome")
+                .isSorted();
     }
 
 }
