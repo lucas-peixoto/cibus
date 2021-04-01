@@ -32,7 +32,7 @@ class TipoDeCozinhaRepositoryTest {
 
     @Test
     void deveConfirmarQuandoUmNomeExisteComUmIdDiferente() {
-        TipoDeCozinha azerbaijani = tipoDeCozinhaRepository.save(new TipoDeCozinha("Azerbaijani"));
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("Azerbaijani"));
 
         boolean existe = tipoDeCozinhaRepository.existsByNomeAndIdNot("Azerbaijani", 0L);
         assertThat(existe).isTrue();
@@ -50,13 +50,14 @@ class TipoDeCozinhaRepositoryTest {
     void deveRetornarTudoOrdenadoPorNome() {
         tipoDeCozinhaRepository.save(new TipoDeCozinha("Portuguesa"));
         tipoDeCozinhaRepository.save(new TipoDeCozinha("Francesa"));
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("alemã"));
 
         List<TipoDeCozinha> tiposDeCozinha = tipoDeCozinhaRepository.findByOrderByNomeAsc();
 
         assertThat(tiposDeCozinha)
-                .hasSize(6)
+                .hasSize(7)
                 .extracting("nome")
-                .containsExactly("Árabe", "Baiana", "Chinesa", "Francesa", "Italiana", "Portuguesa");
+                .containsExactly("alemã", "Árabe", "Baiana", "Chinesa", "Francesa", "Italiana", "Portuguesa");
     }
 
 }
