@@ -20,9 +20,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <h3>Adicionar um Tipo de Cozinha</h3>
+            <h3 class="titulo">Adicionar um Tipo de Cozinha</h3>
             <hr class="mb-3">
-            <form method="post" action="/admin/tipos-de-cozinha/novo">
+            <form class="form-adicionar-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/novo">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
                     <input id="nome" type="text" name="nome" class="form-control" maxlength="50" required>

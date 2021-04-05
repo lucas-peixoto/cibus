@@ -20,9 +20,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <h3>Editar um Tipo de Cozinha</h3>
+            <h3 class="titulo">Editar um Tipo de Cozinha</h3>
             <hr class="mb-3">
-            <form method="post" action="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}">
+            <form class="form-editar-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}">
                 <input type="hidden" name="id" value="${tipoDeCozinha.id}">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>

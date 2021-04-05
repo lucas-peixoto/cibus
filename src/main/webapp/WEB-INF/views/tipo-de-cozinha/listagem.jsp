@@ -21,8 +21,8 @@
         <div class="col-md-8">
 
             <h1 class="mb-3">
-                <span class="me-3">Tipos de cozinha</span>
-                <a href="/admin/tipos-de-cozinha/novo" class="btn btn-success">Adicionar novo</a>
+                <span class="titulo me-3">Tipos de Cozinha</span>
+                <a href="/admin/tipos-de-cozinha/novo" class="link-adicionar-novo-tipo-de-cozinha btn btn-success">Adicionar novo</a>
             </h1>
 
             <table class="table">
@@ -35,11 +35,11 @@
                 <tbody class="align-middle">
                 <c:forEach items="${tiposDeCozinha}" var="tipoDeCozinha">
                     <tr>
-                        <td>${tipoDeCozinha.nome}</td>
+                        <td class="nome-tipo-de-cozinha">${tipoDeCozinha.nome}</td>
                         <td class="d-flex justify-content-end">
-                            <a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}" class="btn btn-primary me-2">Editar</a>
-                            <form method="post" action="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">
-                                <button class="btn btn-danger" type="submit">Remover</button>
+                            <a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}" class="link-editar-tipo-de-cozinha btn btn-primary me-2">Editar</a>
+                            <form class="form-remover-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">
+                                <button class="button-remover-tipo-de-cozinha btn btn-danger" type="submit">Remover</button>
                             </form>
                         </td>
                     </tr>
