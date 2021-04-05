@@ -64,15 +64,33 @@ public class TipoDeCozinhaEndToEndTest {
         assertThat(titulo).isEqualTo("Adicionar um Tipo de Cozinha");
 
         WebElement form = browser.findElementByCssSelector(".form-adicionar-tipo-de-cozinha");
-        WebElement inputNome = form.findElement(By.id("nome"));
-
-        inputNome.sendKeys("Azerbaijani");
-        form.submit();
+        form.findElement(By.id("nome")).sendKeys("Azerbaijani");
+        form.findElement(By.cssSelector("input[type='submit']")).click();
 
         List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr td.nome-tipo-de-cozinha");
 
         assertThat(browser.getCurrentUrl()).isEqualTo(base_url + "/admin/tipos-de-cozinha");
         assertThat(linhas).extracting(WebElement::getText).contains("Azerbaijani");
+    }
+
+    @Test
+    void adicionaComNomeInvalido() {
+        browser.get(base_url + "/admin/tipos-de-cozinha");
+        browser.findElementByCssSelector(".link-adicionar-novo-tipo-de-cozinha").click();
+
+        WebElement form = browser.findElementByCssSelector(".form-adicionar-tipo-de-cozinha");
+        WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
+        submitButton.click();
+
+        assertThat(browser.getCurrentUrl()).isEqualTo(base_url + "/admin/tipos-de-cozinha/novo");
+
+        form.findElement(By.id("nome")).sendKeys("Chinesa");
+        submitButton.click();
+
+        String errors = browser.findElementById("nome.errors").getText();
+
+        assertThat(browser.getCurrentUrl()).isEqualTo(base_url + "/admin/tipos-de-cozinha/novo");
+        assertThat(errors).contains("Nome já existente");
     }
 
     @Test
@@ -91,7 +109,7 @@ public class TipoDeCozinhaEndToEndTest {
 
         inputNome.clear();
         inputNome.sendKeys("Mexicana");
-        form.submit();
+        form.findElement(By.cssSelector("input[type='submit']")).click();
 
         List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr td.nome-tipo-de-cozinha");
 
@@ -100,6 +118,30 @@ public class TipoDeCozinhaEndToEndTest {
                 .extracting(WebElement::getText)
                 .contains("Mexicana")
                 .doesNotContain("Árabe");
+    }
+
+    @Test
+    void editaComNomeInvalido() {
+        browser.get(base_url + "/admin/tipos-de-cozinha");
+        browser.findElementByCssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha").click();
+
+        WebElement form = browser.findElementByCssSelector(".form-editar-tipo-de-cozinha");
+        WebElement inputNome = form.findElement(By.id("nome"));
+        WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
+
+        inputNome.clear();
+        submitButton.click();
+
+        assertThat(browser.getCurrentUrl()).isEqualTo(base_url + "/admin/tipos-de-cozinha/editar/1");
+
+        inputNome.clear();
+        inputNome.sendKeys("Chinesa");
+        submitButton.click();
+
+        String errors = browser.findElementById("nome.errors").getText();
+
+        assertThat(browser.getCurrentUrl()).isEqualTo(base_url + "/admin/tipos-de-cozinha/editar/1");
+        assertThat(errors).contains("Nome já existente");
     }
 
     @Test
