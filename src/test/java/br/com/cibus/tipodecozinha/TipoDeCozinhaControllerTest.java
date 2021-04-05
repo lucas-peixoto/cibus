@@ -48,7 +48,7 @@ class TipoDeCozinhaControllerTest {
 
         mockMvc.perform(post("/admin/tipos-de-cozinha/novo").param("nome", "Baiana").contentType(APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/admin/tipos-de-cozinha"));
+                .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
 
         verify(tipoDeCozinhaRepository).save(any(TipoDeCozinha.class));
     }
@@ -100,7 +100,7 @@ class TipoDeCozinhaControllerTest {
 
         mockMvc.perform(post("/admin/tipos-de-cozinha/editar/1").param("id", "1").param("nome", "Americana").contentType(APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/admin/tipos-de-cozinha"));
+                .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
 
         verify(tipoDeCozinhaRepository).save(any(TipoDeCozinha.class));
     }
@@ -138,7 +138,7 @@ class TipoDeCozinhaControllerTest {
     void remover() throws Exception {
         mockMvc.perform(post("/admin/tipos-de-cozinha/remover/1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/admin/tipos-de-cozinha"));
+                .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
 
         verify(tipoDeCozinhaRepository).deleteById(1L);
     }
