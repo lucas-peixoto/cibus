@@ -21,11 +21,6 @@ public class TipoDeCozinhaEndToEndTest {
     private int serverPort;
     private ChromeDriver browser;
 
-    @BeforeAll
-    static void beforeAll() {
-        System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
-    }
-
     @BeforeEach
     void init() {
         browser = new ChromeDriver();
@@ -155,15 +150,19 @@ public class TipoDeCozinhaEndToEndTest {
                 .doesNotContain("Italiana");
     }
 
+    private String baseURL() {
+        return "http://localhost:" + serverPort;
+    }
+
     private String listaURL() {
-        return "http://localhost:" + serverPort + "/admin/tipos-de-cozinha";
+        return baseURL() + "/admin/tipos-de-cozinha";
     }
 
     private String adicionaURL() {
-        return "http://localhost:" + serverPort + "/admin/tipos-de-cozinha/novo";
+        return baseURL() + "/admin/tipos-de-cozinha/novo";
     }
 
     private String editaURL() {
-        return "http://localhost:" + serverPort + "/admin/tipos-de-cozinha/editar/1";
+        return baseURL() + "/admin/tipos-de-cozinha/editar/1";
     }
 }
