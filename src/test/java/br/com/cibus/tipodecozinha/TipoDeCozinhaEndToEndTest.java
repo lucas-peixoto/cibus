@@ -1,10 +1,10 @@
 package br.com.cibus.tipodecozinha;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ public class TipoDeCozinhaEndToEndTest {
 
     @LocalServerPort
     private int serverPort;
-    private ChromeDriver browser;
+    private WebDriver browser;
 
     @BeforeEach
     void init() {
@@ -36,8 +36,8 @@ public class TipoDeCozinhaEndToEndTest {
         browser.get(listaURL());
 
         String headerTitle = browser.getTitle();
-        WebElement titulo = browser.findElementByCssSelector(".titulo");
-        List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr");
+        WebElement titulo = browser.findElement(By.cssSelector(".titulo"));
+        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr"));
 
         assertThat(headerTitle).isEqualTo("Tipos de Cozinha");
         assertThat(titulo.getText()).isEqualTo("Tipos de Cozinha");
@@ -48,19 +48,19 @@ public class TipoDeCozinhaEndToEndTest {
     @Test
     void adiciona() {
         browser.get(listaURL());
-        browser.findElementByCssSelector(".link-adicionar-novo-tipo-de-cozinha").click();
+        browser.findElement(By.cssSelector(".link-adicionar-novo-tipo-de-cozinha")).click();
 
-        String titulo = browser.findElementByCssSelector(".titulo").getText();
+        String titulo = browser.findElement(By.cssSelector(".titulo")).getText();
 
         assertThat(browser.getCurrentUrl()).isEqualTo(adicionaURL());
         assertThat(browser.getTitle()).isEqualTo("Adicionar um Tipo de Cozinha");
         assertThat(titulo).isEqualTo("Adicionar um Tipo de Cozinha");
 
-        WebElement form = browser.findElementByCssSelector(".form-adicionar-tipo-de-cozinha");
+        WebElement form = browser.findElement(By.cssSelector(".form-adicionar-tipo-de-cozinha"));
         form.findElement(By.id("nome")).sendKeys("Azerbaijani");
         form.findElement(By.cssSelector("input[type='submit']")).click();
 
-        List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr td.nome-tipo-de-cozinha");
+        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
 
         assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
         assertThat(linhas).extracting(WebElement::getText).contains("Azerbaijani");
@@ -69,9 +69,9 @@ public class TipoDeCozinhaEndToEndTest {
     @Test
     void adicionaComNomeInvalido() {
         browser.get(listaURL());
-        browser.findElementByCssSelector(".link-adicionar-novo-tipo-de-cozinha").click();
+        browser.findElement(By.cssSelector(".link-adicionar-novo-tipo-de-cozinha")).click();
 
-        WebElement form = browser.findElementByCssSelector(".form-adicionar-tipo-de-cozinha");
+        WebElement form = browser.findElement(By.cssSelector(".form-adicionar-tipo-de-cozinha"));
         WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
         submitButton.click();
 
@@ -80,7 +80,7 @@ public class TipoDeCozinhaEndToEndTest {
         form.findElement(By.id("nome")).sendKeys("Chinesa");
         submitButton.click();
 
-        String errors = browser.findElementById("nome.errors").getText();
+        String errors = browser.findElement(By.id("nome.errors")).getText();
 
         assertThat(browser.getCurrentUrl()).isEqualTo(adicionaURL());
         assertThat(errors).contains("Nome já existente");
@@ -89,22 +89,22 @@ public class TipoDeCozinhaEndToEndTest {
     @Test
     void edita() {
         browser.get(listaURL());
-        browser.findElementByCssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha").click();
+        browser.findElement(By.cssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha")).click();
 
-        String titulo = browser.findElementByCssSelector(".titulo").getText();
+        String titulo = browser.findElement(By.cssSelector(".titulo")).getText();
 
         assertThat(browser.getCurrentUrl()).isEqualTo(editaURL());
         assertThat(browser.getTitle()).isEqualTo("Editar um Tipo de Cozinha");
         assertThat(titulo).isEqualTo("Editar um Tipo de Cozinha");
 
-        WebElement form = browser.findElementByCssSelector(".form-editar-tipo-de-cozinha");
+        WebElement form = browser.findElement(By.cssSelector(".form-editar-tipo-de-cozinha"));
         WebElement inputNome = form.findElement(By.id("nome"));
 
         inputNome.clear();
         inputNome.sendKeys("Mexicana");
         form.findElement(By.cssSelector("input[type='submit']")).click();
 
-        List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr td.nome-tipo-de-cozinha");
+        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
 
         assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
         assertThat(linhas)
@@ -116,9 +116,9 @@ public class TipoDeCozinhaEndToEndTest {
     @Test
     void editaComNomeInvalido() {
         browser.get(listaURL());
-        browser.findElementByCssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha").click();
+        browser.findElement(By.cssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha")).click();
 
-        WebElement form = browser.findElementByCssSelector(".form-editar-tipo-de-cozinha");
+        WebElement form = browser.findElement(By.cssSelector(".form-editar-tipo-de-cozinha"));
         WebElement inputNome = form.findElement(By.id("nome"));
         WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
 
@@ -131,7 +131,7 @@ public class TipoDeCozinhaEndToEndTest {
         inputNome.sendKeys("Chinesa");
         submitButton.click();
 
-        String errors = browser.findElementById("nome.errors").getText();
+        String errors = browser.findElement(By.id("nome.errors")).getText();
 
         assertThat(browser.getCurrentUrl()).isEqualTo(editaURL());
         assertThat(errors).contains("Nome já existente");
@@ -140,9 +140,9 @@ public class TipoDeCozinhaEndToEndTest {
     @Test
     void remove() {
         browser.get(listaURL());
-        browser.findElementByCssSelector("table.table tbody tr:last-child .button-remover-tipo-de-cozinha").click();
+        browser.findElement(By.cssSelector("table.table tbody tr:last-child .button-remover-tipo-de-cozinha")).click();
 
-        List<WebElement> linhas = browser.findElementsByCssSelector("table.table tbody tr td.nome-tipo-de-cozinha");
+        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
 
         assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
         assertThat(linhas)
