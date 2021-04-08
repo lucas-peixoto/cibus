@@ -1,6 +1,7 @@
 package br.com.cibus.tipodecozinha.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -22,6 +23,19 @@ public class ListarPageObject extends PageObject {
     public AdicionarPageObject clickAdicionar() {
         browser.findElement(By.className("link-adicionar-novo-tipo-de-cozinha")).click();
         return new AdicionarPageObject(browser, urlBase);
+    }
+
+    public EditarPageObject clickEditar(String nomeTipoDeCozinha) {
+        WebElement linha = linhasDaTabela().stream()
+                .filter(el -> el.findElement(By.className("nome-tipo-de-cozinha")).getText().equals(nomeTipoDeCozinha))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+
+        WebElement botao = linha.findElement(By.cssSelector("a.link-editar-tipo-de-cozinha"));
+        String id = botao.getAttribute("href").replace(urlBase + EditarPageObject.caminhoDaPagina, "");
+        botao.click();
+
+        return new EditarPageObject(browser, urlBase, id);
     }
 
     public List<WebElement> linhasDaTabela() {

@@ -1,6 +1,7 @@
 package br.com.cibus.tipodecozinha;
 
 import br.com.cibus.tipodecozinha.pageobjects.AdicionarPageObject;
+import br.com.cibus.tipodecozinha.pageobjects.EditarPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.ListarPageObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -82,53 +83,43 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void edita() {
-        browser.get(listaURL());
-        browser.findElement(By.cssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha")).click();
+        String nomeAntigo = "Baiana";
+        String nomeNovo = "Mexicana";
 
-        String titulo = browser.findElement(By.cssSelector(".titulo")).getText();
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+        EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(editaURL());
-        assertThat(browser.getTitle()).isEqualTo("Editar um Tipo de Cozinha");
-        assertThat(titulo).isEqualTo("Editar um Tipo de Cozinha");
+        assertThat(editarPage.ehPaginaAtual()).isTrue();
+        assertThat(editarPage.tituloDaPagina()).isEqualTo("Editar um Tipo de Cozinha");
+        assertThat(editarPage.tituloDoCabecalho()).isEqualTo("Editar um Tipo de Cozinha");
 
-        WebElement form = browser.findElement(By.cssSelector(".form-editar-tipo-de-cozinha"));
-        WebElement inputNome = form.findElement(By.id("nome"));
+        listarPage = editarPage.editaTipoDeCozinhaValido(nomeNovo);
 
-        inputNome.clear();
-        inputNome.sendKeys("Mexicana");
-        form.findElement(By.cssSelector("input[type='submit']")).click();
-
-        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
-
-        assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
-        assertThat(linhas)
-                .extracting(WebElement::getText)
-                .contains("Mexicana")
-                .doesNotContain("Árabe");
+        assertThat(listarPage.ehPaginaAtual()).isTrue();
+        assertThat(listarPage.nomesDasLinhasDaTabela())
+                .doesNotContain(nomeAntigo)
+                .contains(nomeNovo);
     }
 
     @Test
     void editaComNomeInvalido() {
-        browser.get(listaURL());
-        browser.findElement(By.cssSelector("table.table tbody tr a.link-editar-tipo-de-cozinha")).click();
+        String nomeAntigo = "Árabe";
+        String nomeVazio = "";
+        String nomeJaCadastrado = "Italiana";
 
-        WebElement form = browser.findElement(By.cssSelector(".form-editar-tipo-de-cozinha"));
-        WebElement inputNome = form.findElement(By.id("nome"));
-        WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+        EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
-        inputNome.clear();
-        submitButton.click();
+        editarPage.editaTipoDeCozinhaInvalido(nomeVazio);
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(editaURL());
+        assertThat(editarPage.ehPaginaAtual()).isTrue();
 
-        inputNome.clear();
-        inputNome.sendKeys("Chinesa");
-        submitButton.click();
+        editarPage.editaTipoDeCozinhaInvalido(nomeJaCadastrado);
 
-        String errors = browser.findElement(By.id("nome.errors")).getText();
-
-        assertThat(browser.getCurrentUrl()).isEqualTo(editaURL());
-        assertThat(errors).contains("Nome já existente");
+        assertThat(editarPage.ehPaginaAtual()).isTrue();
+        assertThat(editarPage.erros()).contains("Nome já existente");
     }
 
     @Test
