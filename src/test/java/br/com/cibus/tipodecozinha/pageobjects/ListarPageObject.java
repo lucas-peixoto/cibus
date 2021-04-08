@@ -38,6 +38,15 @@ public class ListarPageObject extends PageObject {
         return new EditarPageObject(browser, urlBase, id);
     }
 
+    public void clickRemover(String nomeTipoDeCozinha) {
+        WebElement linha = linhasDaTabela().stream()
+                .filter(el -> el.findElement(By.className("nome-tipo-de-cozinha")).getText().equals(nomeTipoDeCozinha))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+
+        linha.findElement(By.className("button-remover-tipo-de-cozinha")).click();
+    }
+
     public List<WebElement> linhasDaTabela() {
         return browser.findElements(By.cssSelector("table.table tbody tr"));
     }

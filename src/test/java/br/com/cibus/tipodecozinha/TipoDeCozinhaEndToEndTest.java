@@ -6,14 +6,10 @@ import br.com.cibus.tipodecozinha.pageobjects.ListarPageObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
@@ -124,30 +120,18 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void remove() {
-        browser.get(listaURL());
-        browser.findElement(By.cssSelector("table.table tbody tr:last-child .button-remover-tipo-de-cozinha")).click();
+        String nomeRemovido = "Chinesa";
 
-        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+        listarPage.clickRemover(nomeRemovido);
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
-        assertThat(linhas)
-                .extracting(WebElement::getText)
-                .doesNotContain("Italiana");
+        assertThat(listarPage.ehPaginaAtual()).isTrue();
+        assertThat(listarPage.nomesDasLinhasDaTabela())
+                .doesNotContain(nomeRemovido);
     }
 
     private String baseURL() {
         return "http://localhost:" + serverPort;
-    }
-
-    private String listaURL() {
-        return baseURL() + "/admin/tipos-de-cozinha";
-    }
-
-    private String adicionaURL() {
-        return baseURL() + "/admin/tipos-de-cozinha/novo";
-    }
-
-    private String editaURL() {
-        return baseURL() + "/admin/tipos-de-cozinha/editar/1";
     }
 }
