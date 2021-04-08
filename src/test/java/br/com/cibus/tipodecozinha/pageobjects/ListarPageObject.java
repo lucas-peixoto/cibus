@@ -16,6 +16,13 @@ public class ListarPageObject extends PageObject {
         super(browser, urlBase);
     }
 
+    public static ListarPageObject iniciarPagina(WebDriver browser, String urlBase) {
+        ListarPageObject listarPage = new ListarPageObject(browser, urlBase);
+        listarPage.abrirPagina();
+
+        return listarPage;
+    }
+
     public String tituloDoCabecalho() {
         return browser.findElement(By.className("titulo")).getText();
     }

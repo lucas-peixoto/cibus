@@ -33,8 +33,7 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void lista() {
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
 
         assertThat(listarPage.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
         assertThat(listarPage.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
@@ -44,8 +43,7 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void adiciona() {
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
         AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
 
         assertThat(adicionarPage.ehPaginaAtual()).isTrue();
@@ -63,8 +61,7 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeVazio = "";
         String nomeJaCadastrado = "Italiana";
 
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
         AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
 
         adicionarPage.cadastraTipoDeCozinhaInvalido(nomeVazio);
@@ -82,8 +79,7 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeAntigo = "Baiana";
         String nomeNovo = "Mexicana";
 
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
         EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
         assertThat(editarPage.ehPaginaAtual()).isTrue();
@@ -104,8 +100,7 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeVazio = "";
         String nomeJaCadastrado = "Italiana";
 
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
         EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
         editarPage.editaTipoDeCozinhaInvalido(nomeVazio);
@@ -122,8 +117,7 @@ public class TipoDeCozinhaEndToEndTest {
     void remove() {
         String nomeRemovido = "Chinesa";
 
-        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
-        listarPage.abrirPagina();
+        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
         listarPage.clickRemover(nomeRemovido);
 
         assertThat(listarPage.ehPaginaAtual()).isTrue();
