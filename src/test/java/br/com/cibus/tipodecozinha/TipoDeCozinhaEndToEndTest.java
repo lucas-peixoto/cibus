@@ -1,5 +1,6 @@
 package br.com.cibus.tipodecozinha;
 
+import br.com.cibus.tipodecozinha.pageobjects.AdicionarPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.ListarPageObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -46,43 +47,37 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void adiciona() {
-        browser.get(listaURL());
-        browser.findElement(By.cssSelector(".link-adicionar-novo-tipo-de-cozinha")).click();
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+        AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
 
-        String titulo = browser.findElement(By.cssSelector(".titulo")).getText();
+        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
+        assertThat(adicionarPage.tituloDaPagina()).isEqualTo("Adicionar um Tipo de Cozinha");
+        assertThat(adicionarPage.tituloDoCabecalho()).isEqualTo("Adicionar um Tipo de Cozinha");
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(adicionaURL());
-        assertThat(browser.getTitle()).isEqualTo("Adicionar um Tipo de Cozinha");
-        assertThat(titulo).isEqualTo("Adicionar um Tipo de Cozinha");
+        listarPage = adicionarPage.cadastraTipoDeCozinhaValido("Azerbaijani");
 
-        WebElement form = browser.findElement(By.cssSelector(".form-adicionar-tipo-de-cozinha"));
-        form.findElement(By.id("nome")).sendKeys("Azerbaijani");
-        form.findElement(By.cssSelector("input[type='submit']")).click();
-
-        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr td.nome-tipo-de-cozinha"));
-
-        assertThat(browser.getCurrentUrl()).isEqualTo(listaURL());
-        assertThat(linhas).extracting(WebElement::getText).contains("Azerbaijani");
+        assertThat(listarPage.ehPaginaAtual()).isTrue();
+        assertThat(listarPage.nomesDasLinhasDaTabela()).contains("Azerbaijani");
     }
 
     @Test
     void adicionaComNomeInvalido() {
-        browser.get(listaURL());
-        browser.findElement(By.cssSelector(".link-adicionar-novo-tipo-de-cozinha")).click();
+        String nomeVazio = "";
+        String nomeJaCadastrado = "Italiana";
 
-        WebElement form = browser.findElement(By.cssSelector(".form-adicionar-tipo-de-cozinha"));
-        WebElement submitButton = form.findElement(By.cssSelector("input[type='submit']"));
-        submitButton.click();
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+        AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(adicionaURL());
+        adicionarPage.cadastraTipoDeCozinhaInvalido(nomeVazio);
 
-        form.findElement(By.id("nome")).sendKeys("Chinesa");
-        submitButton.click();
+        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
 
-        String errors = browser.findElement(By.id("nome.errors")).getText();
+        adicionarPage.cadastraTipoDeCozinhaInvalido(nomeJaCadastrado);
 
-        assertThat(browser.getCurrentUrl()).isEqualTo(adicionaURL());
-        assertThat(errors).contains("Nome já existente");
+        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
+        assertThat(adicionarPage.erros()).contains("Nome já existente");
     }
 
     @Test

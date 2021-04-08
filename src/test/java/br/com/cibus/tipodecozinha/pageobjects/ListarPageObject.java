@@ -19,6 +19,11 @@ public class ListarPageObject extends PageObject {
         return browser.findElement(By.className("titulo")).getText();
     }
 
+    public AdicionarPageObject clickAdicionar() {
+        browser.findElement(By.className("link-adicionar-novo-tipo-de-cozinha")).click();
+        return new AdicionarPageObject(browser, urlBase);
+    }
+
     public List<WebElement> linhasDaTabela() {
         return browser.findElements(By.cssSelector("table.table tbody tr"));
     }
