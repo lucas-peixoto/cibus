@@ -1,7 +1,7 @@
 package br.com.cibus.tipodecozinha;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,15 +19,15 @@ public class TipoDeCozinhaEndToEndTest {
 
     @LocalServerPort
     private int serverPort;
-    private WebDriver browser;
+    private static WebDriver browser;
 
-    @BeforeEach
-    void init() {
+    @BeforeAll
+    static void beforeAll() {
         browser = new ChromeDriver();
     }
 
-    @AfterEach
-    void after() {
+    @AfterAll
+    static void afterAll() {
         browser.quit();
     }
 
