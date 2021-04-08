@@ -27,7 +27,7 @@ public class EditarPageObject extends PageObject {
         editaTipoDeCozinha(nomeTipoDeCozinha);
     }
 
-    public void editaTipoDeCozinha(String nomeTipoDeCozinha) {
+    private void editaTipoDeCozinha(String nomeTipoDeCozinha) {
         WebElement form = browser.findElement(By.className("form-editar-tipo-de-cozinha"));
         WebElement inputNome = form.findElement(By.id("nome"));
 
