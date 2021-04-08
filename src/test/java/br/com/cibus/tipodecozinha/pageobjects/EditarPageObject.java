@@ -9,13 +9,19 @@ public class EditarPageObject extends PageObject {
     public String id;
     public static String caminhoDaPagina = "/admin/tipos-de-cozinha/editar/";
 
+    private By titulo = By.className("titulo");
+    private By inputNome = By.id("nome");
+    private By formEditar = By.className("form-editar-tipo-de-cozinha");
+    private By submitButton = By.cssSelector("input[type='submit']");
+    private By nomeErros = By.id("nome.errors");
+
     public EditarPageObject(WebDriver browser, String urlBase, String id) {
         super(browser, urlBase);
         this.id = id;
     }
 
     public String tituloDoCabecalho() {
-        return browser.findElement(By.className("titulo")).getText();
+        return browser.findElement(titulo).getText();
     }
 
     public ListarPageObject editaTipoDeCozinhaValido(String nomeTipoDeCozinha) {
@@ -28,16 +34,16 @@ public class EditarPageObject extends PageObject {
     }
 
     private void editaTipoDeCozinha(String nomeTipoDeCozinha) {
-        WebElement form = browser.findElement(By.className("form-editar-tipo-de-cozinha"));
-        WebElement inputNome = form.findElement(By.id("nome"));
+        WebElement form = browser.findElement(formEditar);
+        WebElement input = form.findElement(inputNome);
 
-        inputNome.clear();
-        inputNome.sendKeys(nomeTipoDeCozinha);
-        form.findElement(By.cssSelector("input[type='submit']")).click();
+        input.clear();
+        input.sendKeys(nomeTipoDeCozinha);
+        form.findElement(submitButton).click();
     }
 
     public String erros() {
-        return browser.findElement(By.id("nome.errors")).getText();
+        return browser.findElement(nomeErros).getText();
     }
 
     @Override

@@ -8,12 +8,18 @@ public class AdicionarPageObject extends PageObject {
 
     public static String caminhoDaPagina = "/admin/tipos-de-cozinha/novo";
 
+    private By titulo = By.className("titulo");
+    private By inputNome = By.id("nome");
+    private By formAdicionar = By.className("form-adicionar-tipo-de-cozinha");
+    private By submitButton = By.cssSelector("input[type='submit']");
+    private By nomeErros = By.id("nome.errors");
+
     public AdicionarPageObject(WebDriver browser, String urlBase) {
         super(browser, urlBase);
     }
 
     public String tituloDoCabecalho() {
-        return browser.findElement(By.className("titulo")).getText();
+        return browser.findElement(titulo).getText();
     }
 
     public ListarPageObject cadastraTipoDeCozinhaValido(String nome) {
@@ -26,13 +32,13 @@ public class AdicionarPageObject extends PageObject {
     }
 
     private void cadastraTipoDeCozinha(String nome) {
-        WebElement form = browser.findElement(By.cssSelector(".form-adicionar-tipo-de-cozinha"));
-        form.findElement(By.id("nome")).sendKeys(nome);
-        form.findElement(By.cssSelector("input[type='submit']")).click();
+        WebElement form = browser.findElement(formAdicionar);
+        form.findElement(inputNome).sendKeys(nome);
+        form.findElement(submitButton).click();
     }
 
     public String erros() {
-        return browser.findElement(By.id("nome.errors")).getText();
+        return browser.findElement(nomeErros).getText();
     }
 
     @Override
