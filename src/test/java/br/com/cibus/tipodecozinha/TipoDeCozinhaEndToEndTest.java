@@ -1,5 +1,6 @@
 package br.com.cibus.tipodecozinha;
 
+import br.com.cibus.tipodecozinha.pageobjects.ListarPageObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.list;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TipoDeCozinhaEndToEndTest {
 
     @LocalServerPort
-    private int serverPort;
+    private String serverPort;
     private static WebDriver browser;
 
     @BeforeAll
@@ -33,16 +35,13 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void lista() {
-        browser.get(listaURL());
+        ListarPageObject listarPage = new ListarPageObject(browser, baseURL());
+        listarPage.abrirPagina();
 
-        String headerTitle = browser.getTitle();
-        WebElement titulo = browser.findElement(By.cssSelector(".titulo"));
-        List<WebElement> linhas = browser.findElements(By.cssSelector("table.table tbody tr"));
-
-        assertThat(headerTitle).isEqualTo("Tipos de Cozinha");
-        assertThat(titulo.getText()).isEqualTo("Tipos de Cozinha");
-        // O número de linhas no banco pode mudar de acordo com a ordem de execução dos testes, por isso é utilizado ">= 3"
-        assertThat(linhas).hasSizeGreaterThanOrEqualTo(3);
+        assertThat(listarPage.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
+        assertThat(listarPage.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
+        assertThat(listarPage.nomesDasLinhasDaTabela())
+                .containsAll(list("Árabe", "Italiana"));
     }
 
     @Test
