@@ -31,99 +31,105 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void lista() {
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
 
-        assertThat(listarPage.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
-        assertThat(listarPage.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
-        assertThat(listarPage.nomesDasLinhasDaTabela())
+        assertThat(listagem.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
+        assertThat(listagem.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
+        assertThat(listagem.nomesDasLinhasDaTabela())
                 .containsAll(list("Árabe", "Italiana"));
     }
 
     @Test
     void adiciona() {
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
-        AdicionarTipoDeCozinhaPageObject adicionarPage = listarPage.clickAdicionar();
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
+        AdicionarTipoDeCozinhaPageObject paginaAdicionar = listagem.clickAdicionar();
 
-        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
-        assertThat(adicionarPage.tituloDaPagina()).isEqualTo("Adicionar um Tipo de Cozinha");
-        assertThat(adicionarPage.tituloDoCabecalho()).isEqualTo("Adicionar um Tipo de Cozinha");
+        assertThat(paginaAdicionar.ehPaginaAtual()).isTrue();
+        assertThat(paginaAdicionar.tituloDaPagina()).isEqualTo("Adicionar um Tipo de Cozinha");
+        assertThat(paginaAdicionar.tituloDoCabecalho()).isEqualTo("Adicionar um Tipo de Cozinha");
 
-        listarPage = adicionarPage.cadastraTipoDeCozinhaValido("Azerbaijani");
+        listagem = paginaAdicionar.cadastraTipoDeCozinhaValido("Azerbaijani");
 
-        assertThat(listarPage.ehPaginaAtual()).isTrue();
-        assertThat(listarPage.nomesDasLinhasDaTabela()).contains("Azerbaijani");
+        assertThat(listagem.ehPaginaAtual()).isTrue();
+        assertThat(listagem.nomesDasLinhasDaTabela()).contains("Azerbaijani");
     }
 
     @Test
     void adicionaComNomeInvalido() {
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
+        AdicionarTipoDeCozinhaPageObject paginaAdicionar = listagem.clickAdicionar();
+
         String nomeVazio = "";
+        paginaAdicionar.cadastraTipoDeCozinhaInvalido(nomeVazio);
+
+        assertThat(paginaAdicionar.ehPaginaAtual()).isTrue();
+
         String nomeJaCadastrado = "Italiana";
+        paginaAdicionar.cadastraTipoDeCozinhaInvalido(nomeJaCadastrado);
 
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
-        AdicionarTipoDeCozinhaPageObject adicionarPage = listarPage.clickAdicionar();
-
-        adicionarPage.cadastraTipoDeCozinhaInvalido(nomeVazio);
-
-        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
-
-        adicionarPage.cadastraTipoDeCozinhaInvalido(nomeJaCadastrado);
-
-        assertThat(adicionarPage.ehPaginaAtual()).isTrue();
-        assertThat(adicionarPage.erros()).contains("Nome já existente");
+        assertThat(paginaAdicionar.ehPaginaAtual()).isTrue();
+        assertThat(paginaAdicionar.erros()).contains("Nome já existente");
     }
 
     @Test
     void edita() {
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
+
         String nomeAntigo = "Baiana";
+        EditarTipoDeCozinhaPageObject paginaEditar = listagem.clickEditar(nomeAntigo);
+
+        assertThat(paginaEditar.ehPaginaAtual()).isTrue();
+        assertThat(paginaEditar.tituloDaPagina()).isEqualTo("Editar um Tipo de Cozinha");
+        assertThat(paginaEditar.tituloDoCabecalho()).isEqualTo("Editar um Tipo de Cozinha");
+
         String nomeNovo = "Mexicana";
+        listagem = paginaEditar.editaTipoDeCozinhaValido(nomeNovo);
 
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
-        EditarTipoDeCozinhaPageObject editarPage = listarPage.clickEditar(nomeAntigo);
-
-        assertThat(editarPage.ehPaginaAtual()).isTrue();
-        assertThat(editarPage.tituloDaPagina()).isEqualTo("Editar um Tipo de Cozinha");
-        assertThat(editarPage.tituloDoCabecalho()).isEqualTo("Editar um Tipo de Cozinha");
-
-        listarPage = editarPage.editaTipoDeCozinhaValido(nomeNovo);
-
-        assertThat(listarPage.ehPaginaAtual()).isTrue();
-        assertThat(listarPage.nomesDasLinhasDaTabela())
+        assertThat(listagem.ehPaginaAtual()).isTrue();
+        assertThat(listagem.nomesDasLinhasDaTabela())
                 .doesNotContain(nomeAntigo)
                 .contains(nomeNovo);
     }
 
     @Test
     void editaComNomeInvalido() {
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
+
         String nomeAntigo = "Árabe";
+        EditarTipoDeCozinhaPageObject paginaEditar = listagem.clickEditar(nomeAntigo);
+
         String nomeVazio = "";
+        paginaEditar.editaTipoDeCozinhaInvalido(nomeVazio);
+
+        assertThat(paginaEditar.ehPaginaAtual()).isTrue();
+
         String nomeJaCadastrado = "Italiana";
+        paginaEditar.editaTipoDeCozinhaInvalido(nomeJaCadastrado);
 
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
-        EditarTipoDeCozinhaPageObject editarPage = listarPage.clickEditar(nomeAntigo);
-
-        editarPage.editaTipoDeCozinhaInvalido(nomeVazio);
-
-        assertThat(editarPage.ehPaginaAtual()).isTrue();
-
-        editarPage.editaTipoDeCozinhaInvalido(nomeJaCadastrado);
-
-        assertThat(editarPage.ehPaginaAtual()).isTrue();
-        assertThat(editarPage.erros()).contains("Nome já existente");
+        assertThat(paginaEditar.ehPaginaAtual()).isTrue();
+        assertThat(paginaEditar.erros()).contains("Nome já existente");
     }
 
     @Test
     void remove() {
+        ListarTipoDeCozinhaPageObject listagem = abrirListagem();
+
         String nomeRemovido = "Chinesa";
+        listagem.clickRemover(nomeRemovido);
 
-        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
-        listarPage.clickRemover(nomeRemovido);
-
-        assertThat(listarPage.ehPaginaAtual()).isTrue();
-        assertThat(listarPage.nomesDasLinhasDaTabela())
+        assertThat(listagem.ehPaginaAtual()).isTrue();
+        assertThat(listagem.nomesDasLinhasDaTabela())
                 .doesNotContain(nomeRemovido);
     }
 
     private String baseURL() {
         return "http://localhost:" + serverPort;
+    }
+
+    private ListarTipoDeCozinhaPageObject abrirListagem() {
+        ListarTipoDeCozinhaPageObject listarPage = new ListarTipoDeCozinhaPageObject(browser, baseURL());
+        listarPage.abrirPagina();
+
+        return listarPage;
     }
 }

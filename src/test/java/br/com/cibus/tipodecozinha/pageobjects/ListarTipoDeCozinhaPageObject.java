@@ -23,13 +23,6 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
         super(browser, urlBase);
     }
 
-    public static ListarTipoDeCozinhaPageObject iniciarPagina(WebDriver browser, String urlBase) {
-        ListarTipoDeCozinhaPageObject listarPage = new ListarTipoDeCozinhaPageObject(browser, urlBase);
-        listarPage.abrirPagina();
-
-        return listarPage;
-    }
-
     public String tituloDoCabecalho() {
         return browser.findElement(titulo).getText();
     }
