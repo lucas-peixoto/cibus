@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListarPageObject extends PageObject {
+public class ListarTipoDeCozinhaPageObject extends PageObject {
 
     public static String caminhoDaPagina = "/admin/tipos-de-cozinha";
 
@@ -19,12 +19,12 @@ public class ListarPageObject extends PageObject {
     private By linkEditar = By.className("link-editar-tipo-de-cozinha");
     private By botaoRemover = By.className("button-remover-tipo-de-cozinha");
 
-    public ListarPageObject(WebDriver browser, String urlBase) {
+    public ListarTipoDeCozinhaPageObject(WebDriver browser, String urlBase) {
         super(browser, urlBase);
     }
 
-    public static ListarPageObject iniciarPagina(WebDriver browser, String urlBase) {
-        ListarPageObject listarPage = new ListarPageObject(browser, urlBase);
+    public static ListarTipoDeCozinhaPageObject iniciarPagina(WebDriver browser, String urlBase) {
+        ListarTipoDeCozinhaPageObject listarPage = new ListarTipoDeCozinhaPageObject(browser, urlBase);
         listarPage.abrirPagina();
 
         return listarPage;
@@ -34,22 +34,22 @@ public class ListarPageObject extends PageObject {
         return browser.findElement(titulo).getText();
     }
 
-    public AdicionarPageObject clickAdicionar() {
+    public AdicionarTipoDeCozinhaPageObject clickAdicionar() {
         browser.findElement(linkAdicionarNovo).click();
-        return new AdicionarPageObject(browser, urlBase);
+        return new AdicionarTipoDeCozinhaPageObject(browser, urlBase);
     }
 
-    public EditarPageObject clickEditar(String nomeTipoDeCozinha) {
+    public EditarTipoDeCozinhaPageObject clickEditar(String nomeTipoDeCozinha) {
         WebElement linha = linhasDaTabela().stream()
                 .filter(el -> el.findElement(nomeDaTabela).getText().equals(nomeTipoDeCozinha))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
 
         WebElement botao = linha.findElement(linkEditar);
-        String id = botao.getAttribute("href").replace(urlBase + EditarPageObject.caminhoDaPagina, "");
+        String id = botao.getAttribute("href").replace(urlBase + EditarTipoDeCozinhaPageObject.caminhoDaPagina, "");
         botao.click();
 
-        return new EditarPageObject(browser, urlBase, id);
+        return new EditarTipoDeCozinhaPageObject(browser, urlBase, id);
     }
 
     public void clickRemover(String nomeTipoDeCozinha) {

@@ -1,8 +1,8 @@
 package br.com.cibus.tipodecozinha;
 
-import br.com.cibus.tipodecozinha.pageobjects.AdicionarPageObject;
-import br.com.cibus.tipodecozinha.pageobjects.EditarPageObject;
-import br.com.cibus.tipodecozinha.pageobjects.ListarPageObject;
+import br.com.cibus.tipodecozinha.pageobjects.AdicionarTipoDeCozinhaPageObject;
+import br.com.cibus.tipodecozinha.pageobjects.EditarTipoDeCozinhaPageObject;
+import br.com.cibus.tipodecozinha.pageobjects.ListarTipoDeCozinhaPageObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void lista() {
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
 
         assertThat(listarPage.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
         assertThat(listarPage.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
@@ -43,8 +43,8 @@ public class TipoDeCozinhaEndToEndTest {
 
     @Test
     void adiciona() {
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
-        AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
+        AdicionarTipoDeCozinhaPageObject adicionarPage = listarPage.clickAdicionar();
 
         assertThat(adicionarPage.ehPaginaAtual()).isTrue();
         assertThat(adicionarPage.tituloDaPagina()).isEqualTo("Adicionar um Tipo de Cozinha");
@@ -61,8 +61,8 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeVazio = "";
         String nomeJaCadastrado = "Italiana";
 
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
-        AdicionarPageObject adicionarPage = listarPage.clickAdicionar();
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
+        AdicionarTipoDeCozinhaPageObject adicionarPage = listarPage.clickAdicionar();
 
         adicionarPage.cadastraTipoDeCozinhaInvalido(nomeVazio);
 
@@ -79,8 +79,8 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeAntigo = "Baiana";
         String nomeNovo = "Mexicana";
 
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
-        EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
+        EditarTipoDeCozinhaPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
         assertThat(editarPage.ehPaginaAtual()).isTrue();
         assertThat(editarPage.tituloDaPagina()).isEqualTo("Editar um Tipo de Cozinha");
@@ -100,8 +100,8 @@ public class TipoDeCozinhaEndToEndTest {
         String nomeVazio = "";
         String nomeJaCadastrado = "Italiana";
 
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
-        EditarPageObject editarPage = listarPage.clickEditar(nomeAntigo);
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
+        EditarTipoDeCozinhaPageObject editarPage = listarPage.clickEditar(nomeAntigo);
 
         editarPage.editaTipoDeCozinhaInvalido(nomeVazio);
 
@@ -117,7 +117,7 @@ public class TipoDeCozinhaEndToEndTest {
     void remove() {
         String nomeRemovido = "Chinesa";
 
-        ListarPageObject listarPage = ListarPageObject.iniciarPagina(browser, baseURL());
+        ListarTipoDeCozinhaPageObject listarPage = ListarTipoDeCozinhaPageObject.iniciarPagina(browser, baseURL());
         listarPage.clickRemover(nomeRemovido);
 
         assertThat(listarPage.ehPaginaAtual()).isTrue();

@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class EditarPageObject extends PageObject {
+public class EditarTipoDeCozinhaPageObject extends PageObject {
 
     public String id;
     public static String caminhoDaPagina = "/admin/tipos-de-cozinha/editar/";
@@ -15,7 +15,7 @@ public class EditarPageObject extends PageObject {
     private By submitButton = By.cssSelector("input[type='submit']");
     private By nomeErros = By.id("nome.errors");
 
-    public EditarPageObject(WebDriver browser, String urlBase, String id) {
+    public EditarTipoDeCozinhaPageObject(WebDriver browser, String urlBase, String id) {
         super(browser, urlBase);
         this.id = id;
     }
@@ -24,9 +24,9 @@ public class EditarPageObject extends PageObject {
         return browser.findElement(titulo).getText();
     }
 
-    public ListarPageObject editaTipoDeCozinhaValido(String nomeTipoDeCozinha) {
+    public ListarTipoDeCozinhaPageObject editaTipoDeCozinhaValido(String nomeTipoDeCozinha) {
         editaTipoDeCozinha(nomeTipoDeCozinha);
-        return new ListarPageObject(browser, urlBase);
+        return new ListarTipoDeCozinhaPageObject(browser, urlBase);
     }
 
     public void editaTipoDeCozinhaInvalido(String nomeTipoDeCozinha) {
