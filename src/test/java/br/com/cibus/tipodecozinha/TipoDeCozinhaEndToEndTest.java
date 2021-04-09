@@ -3,9 +3,7 @@ package br.com.cibus.tipodecozinha;
 import br.com.cibus.tipodecozinha.pageobjects.AdicionarTipoDeCozinhaPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.EditarTipoDeCozinhaPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.ListarTipoDeCozinhaPageObject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,15 +17,15 @@ public class TipoDeCozinhaEndToEndTest {
 
     @LocalServerPort
     private String serverPort;
-    private static WebDriver browser;
+    private WebDriver browser;
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void beforeAll() {
         browser = new ChromeDriver();
     }
 
-    @AfterAll
-    static void afterAll() {
+    @AfterEach
+    void afterAll() {
         browser.quit();
     }
 
