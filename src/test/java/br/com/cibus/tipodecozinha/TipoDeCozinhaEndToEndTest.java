@@ -3,19 +3,21 @@ package br.com.cibus.tipodecozinha;
 import br.com.cibus.tipodecozinha.pageobjects.AdicionarTipoDeCozinhaPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.EditarTipoDeCozinhaPageObject;
 import br.com.cibus.tipodecozinha.pageobjects.ListarTipoDeCozinhaPageObject;
+import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 
-// TODO: explorar adição de waits
-@Disabled
+@ActiveProfiles("teste")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TipoDeCozinhaEndToEndTest {
 
@@ -23,10 +25,14 @@ public class TipoDeCozinhaEndToEndTest {
     private String serverPort;
     private WebDriver browser;
 
+    @Autowired
+    Flyway flyway;
+
     @BeforeEach
     void beforeAll() {
+        flyway.clean();
+        flyway.migrate();
         browser = new ChromeDriver();
-        browser.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @AfterEach
@@ -41,7 +47,7 @@ public class TipoDeCozinhaEndToEndTest {
         assertThat(listagem.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
         assertThat(listagem.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
         assertThat(listagem.nomesDasLinhasDaTabela())
-                .containsAll(list("Árabe", "Italiana"));
+                .containsAll(list("Árabe", "Baiana", "Chinesa", "Italiana"));
     }
 
     @Test
@@ -56,7 +62,9 @@ public class TipoDeCozinhaEndToEndTest {
         listagem = paginaAdicionar.cadastraTipoDeCozinhaValido("Azerbaijani");
 
         assertThat(listagem.ehPaginaAtual()).isTrue();
-        assertThat(listagem.nomesDasLinhasDaTabela()).contains("Azerbaijani");
+        assertThat(listagem.nomesDasLinhasDaTabela())
+                .contains("Azerbaijani")
+                .hasSize(5);
     }
 
     @Test
@@ -93,7 +101,8 @@ public class TipoDeCozinhaEndToEndTest {
         assertThat(listagem.ehPaginaAtual()).isTrue();
         assertThat(listagem.nomesDasLinhasDaTabela())
                 .doesNotContain(nomeAntigo)
-                .contains(nomeNovo);
+                .contains(nomeNovo)
+                .hasSize(4);
     }
 
     @Test
@@ -124,7 +133,8 @@ public class TipoDeCozinhaEndToEndTest {
 
         assertThat(listagem.ehPaginaAtual()).isTrue();
         assertThat(listagem.nomesDasLinhasDaTabela())
-                .doesNotContain(nomeRemovido);
+                .doesNotContain(nomeRemovido)
+                .hasSize(3);
     }
 
     private String baseURL() {
