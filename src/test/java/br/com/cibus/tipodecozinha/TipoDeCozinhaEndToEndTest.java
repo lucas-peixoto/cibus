@@ -47,7 +47,7 @@ public class TipoDeCozinhaEndToEndTest {
         assertThat(listagem.tituloDaPagina()).isEqualTo("Tipos de Cozinha");
         assertThat(listagem.tituloDoCabecalho()).isEqualTo("Tipos de Cozinha");
         assertThat(listagem.nomesDasLinhasDaTabela())
-                .containsAll(list("Árabe", "Italiana"));
+                .containsAll(list("Árabe", "Baiana", "Chinesa", "Italiana"));
     }
 
     @Test
@@ -62,7 +62,9 @@ public class TipoDeCozinhaEndToEndTest {
         listagem = paginaAdicionar.cadastraTipoDeCozinhaValido("Azerbaijani");
 
         assertThat(listagem.ehPaginaAtual()).isTrue();
-        assertThat(listagem.nomesDasLinhasDaTabela()).contains("Azerbaijani");
+        assertThat(listagem.nomesDasLinhasDaTabela())
+                .contains("Azerbaijani")
+                .hasSize(5);
     }
 
     @Test
@@ -99,7 +101,8 @@ public class TipoDeCozinhaEndToEndTest {
         assertThat(listagem.ehPaginaAtual()).isTrue();
         assertThat(listagem.nomesDasLinhasDaTabela())
                 .doesNotContain(nomeAntigo)
-                .contains(nomeNovo);
+                .contains(nomeNovo)
+                .hasSize(4);
     }
 
     @Test
@@ -130,7 +133,8 @@ public class TipoDeCozinhaEndToEndTest {
 
         assertThat(listagem.ehPaginaAtual()).isTrue();
         assertThat(listagem.nomesDasLinhasDaTabela())
-                .doesNotContain(nomeRemovido);
+                .doesNotContain(nomeRemovido)
+                .hasSize(3);
     }
 
     private String baseURL() {
