@@ -64,4 +64,18 @@ class TipoDeCozinhaRepositoryTest {
                 .containsExactly("alemã", "Árabe", "Baiana", "Chinesa", "Francesa", "Italiana", "Portuguesa");
     }
 
+    @Test
+    void deveRetornarOTotalDeRestaurantesPorTipoDeCozinhaOrdenadoPorNome() {
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("Tailandesa"));
+        List<RestaurantesPorTipoDeCozinha> restaurantesPorTipoDeCozinha = tipoDeCozinhaRepository.contaRestaurantesPorTipoDeCozinha();
+
+        assertThat(restaurantesPorTipoDeCozinha)
+                .hasSize(5)
+                .extracting("nome")
+                .containsExactly("Árabe", "Baiana", "Chinesa", "Italiana", "Tailandesa");
+
+        assertThat(restaurantesPorTipoDeCozinha)
+                .extracting("totalDeRestaurantes")
+                .containsExactly(3L, 2L, 3L, 4L, 0L);
+    }
 }
