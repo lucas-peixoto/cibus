@@ -1,5 +1,6 @@
 package br.com.cibus.admin;
 
+import br.com.cibus.tipodecozinha.RestaurantesPorTipoDeCozinha;
 import br.com.cibus.tipodecozinha.TipoDeCozinhaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
