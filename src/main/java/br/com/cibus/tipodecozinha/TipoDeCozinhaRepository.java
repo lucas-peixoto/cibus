@@ -10,6 +10,6 @@ public interface TipoDeCozinhaRepository extends JpaRepository<TipoDeCozinha, Lo
     boolean existsByNomeAndIdNot(String nome, Long id);
     List<TipoDeCozinha> findByOrderByNomeAsc();
 
-    @Query("SELECT tc.id AS id, tc.nome AS nome, COUNT(r.id) AS totalDeRestaurantes FROM TipoDeCozinha tc LEFT JOIN tc.restaurantes r GROUP BY tc.id ORDER BY tc.nome ASC")
+    @Query(value = "SELECT tc.nome AS nomeDoTipoDeCozinha, COUNT(r.id) AS totalDeRestaurantes FROM tipo_de_cozinha tc LEFT JOIN restaurante r ON tc.id=r.tipo_de_cozinha_id GROUP BY tc.id ORDER BY tc.nome", nativeQuery = true)
     List<RestaurantesPorTipoDeCozinha> contaRestaurantesPorTipoDeCozinha();
 }
