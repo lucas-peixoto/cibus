@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
-    <title>Relatório de Restaurantes por Tipo de Cozinha</title>
+    <title>Restaurantes por Tipo de Cozinha</title>
 </head>
 <body>
 
@@ -21,7 +21,7 @@
         <div class="col-md-8">
 
             <h1 class="mb-3">
-                <span class="titulo me-3">Relatório de Restaurantes por Tipo de Cozinha</span>
+                <span class="titulo me-3">Restaurantes por Tipo de Cozinha</span>
             </h1>
 
             <table class="table">
