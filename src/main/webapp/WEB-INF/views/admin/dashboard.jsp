@@ -34,7 +34,7 @@
                 <tbody class="align-middle">
                 <c:forEach items="${restaurantesPorTipoDeCozinha}" var="tipoDeCozinha">
                     <tr>
-                        <td class="nome-tipo-de-cozinha">${tipoDeCozinha.nome}</td>
+                        <td class="nome-tipo-de-cozinha">${tipoDeCozinha.nomeDoTipoDeCozinha}</td>
                         <td class="nome-tipo-de-cozinha">${tipoDeCozinha.totalDeRestaurantes}</td>
                     </tr>
                 </c:forEach>
