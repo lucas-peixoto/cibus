@@ -66,16 +66,16 @@ class TipoDeCozinhaRepositoryTest {
 
     @Test
     void deveRetornarOTotalDeRestaurantesPorTipoDeCozinhaOrdenadoPorNome() {
-        tipoDeCozinhaRepository.save(new TipoDeCozinha("Tailandesa"));
+        tipoDeCozinhaRepository.save(new TipoDeCozinha("Finlandesa"));
         List<RestaurantesPorTipoDeCozinha> restaurantesPorTipoDeCozinha = tipoDeCozinhaRepository.contaRestaurantesPorTipoDeCozinha();
 
         assertThat(restaurantesPorTipoDeCozinha)
                 .hasSize(5)
-                .extracting("nome")
-                .containsExactly("Árabe", "Baiana", "Chinesa", "Italiana", "Tailandesa");
+                .extracting("nomeDoTipoDeCozinha")
+                .containsExactly("Árabe", "Baiana", "Chinesa", "Finlandesa", "Italiana");
 
         assertThat(restaurantesPorTipoDeCozinha)
                 .extracting("totalDeRestaurantes")
-                .containsExactly(3L, 2L, 3L, 4L, 0L);
+                .containsExactly(3L, 2L, 3L, 0L, 4L);
     }
 }
