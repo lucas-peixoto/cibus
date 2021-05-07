@@ -1,9 +1,6 @@
 package br.com.cibus.tipodecozinha;
 
-import br.com.cibus.restaurante.Restaurante;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class TipoDeCozinha {
@@ -15,11 +12,9 @@ public class TipoDeCozinha {
     @Column(unique = true, nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "tipoDeCozinha", cascade = CascadeType.ALL)
-    private List<Restaurante> restaurantes;
-
     @Deprecated
-    protected TipoDeCozinha() {}
+    protected TipoDeCozinha() {
+    }
 
     public TipoDeCozinha(String nome) {
         this.nome = nome;
