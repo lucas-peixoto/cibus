@@ -13,7 +13,8 @@ public class TipoDeCozinha {
     private String nome;
 
     @Deprecated
-    protected TipoDeCozinha() {}
+    protected TipoDeCozinha() {
+    }
 
     public TipoDeCozinha(String nome) {
         this.nome = nome;
