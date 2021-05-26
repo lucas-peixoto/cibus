@@ -136,30 +136,16 @@ class TipoDeCozinhaControllerTest {
     }
 
     @Test
-    void ativar() throws Exception {
+    void toggleAtivar() throws Exception {
         TipoDeCozinha egipcia = new TipoDeCozinha("Egípcia");
-        egipcia.desativa();
+        assertThat(egipcia.isAtivo()).isFalse();
 
         when(tipoDeCozinhaRepository.findById(1L)).thenReturn(Optional.of(egipcia));
 
-        mockMvc.perform(post("/admin/tipos-de-cozinha/ativar/1"))
+        mockMvc.perform(post("/admin/tipos-de-cozinha/toggleAtivo/1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
 
         assertThat(egipcia.isAtivo()).isTrue();
-    }
-
-    @Test
-    void desativar() throws Exception {
-        TipoDeCozinha egipcia = new TipoDeCozinha("Egípcia");
-        egipcia.ativa();
-
-        when(tipoDeCozinhaRepository.findById(1L)).thenReturn(Optional.of(egipcia));
-
-        mockMvc.perform(post("/admin/tipos-de-cozinha/desativar/1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
-
-        assertThat(egipcia.isAtivo()).isFalse();
     }
 }
