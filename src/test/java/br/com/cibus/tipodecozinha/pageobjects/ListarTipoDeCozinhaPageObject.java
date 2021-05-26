@@ -15,9 +15,12 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
     private By titulo = By.className("titulo");
     private By nomeDaTabela = By.className("nome-tipo-de-cozinha");
     private By linhasDaTabela = By.cssSelector("table.table tbody tr");
+    private By linhasAtivasDaTabela = By.cssSelector("table.table tbody tr.ativo");
+    private By linhasInativasDaTabela = By.cssSelector("table.table tbody tr.inativo");
     private By linkAdicionarNovo = By.className("link-adicionar-novo-tipo-de-cozinha");
     private By linkEditar = By.className("link-editar-tipo-de-cozinha");
-    private By botaoRemover = By.className("button-remover-tipo-de-cozinha");
+    private By botaoAtivar = By.className("button-ativar-tipo-de-cozinha");
+    private By botaoDesativar = By.className("button-desativar-tipo-de-cozinha");
 
     public ListarTipoDeCozinhaPageObject(WebDriver browser, String urlBase) {
         super(browser, urlBase);
@@ -45,21 +48,50 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
         return new EditarTipoDeCozinhaPageObject(browser, urlBase, id);
     }
 
-    public void clickRemover(String nomeTipoDeCozinha) {
+    public void clickAtivar(String nomeTipoDeCozinha) {
         WebElement linha = linhasDaTabela().stream()
                 .filter(el -> el.findElement(nomeDaTabela).getText().equals(nomeTipoDeCozinha))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
 
-        linha.findElement(botaoRemover).click();
+        linha.findElement(botaoAtivar).click();
     }
 
-    public List<WebElement> linhasDaTabela() {
+    public void clickDesativar(String nomeTipoDeCozinha) {
+        WebElement linha = linhasDaTabela().stream()
+                .filter(el -> el.findElement(nomeDaTabela).getText().equals(nomeTipoDeCozinha))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+
+        linha.findElement(botaoDesativar).click();
+    }
+
+    private List<WebElement> linhasDaTabela() {
         return browser.findElements(linhasDaTabela);
     }
 
+    private List<WebElement> linhasAtivasDaTabela() {
+        return browser.findElements(linhasAtivasDaTabela);
+    }
+
+    private List<WebElement> linhasInativasDaTabela() {
+        return browser.findElements(linhasInativasDaTabela);
+    }
+
     public List<String> nomesDasLinhasDaTabela() {
-        return linhasDaTabela().stream()
+        return buscaNomesDasLinhasDaTabela(linhasDaTabela());
+    }
+
+    public List<String> nomesDasLinhasAtivasDaTabela() {
+        return buscaNomesDasLinhasDaTabela(linhasAtivasDaTabela());
+    }
+
+    public List<String> nomesDasLinhasInativasDaTabela() {
+        return buscaNomesDasLinhasDaTabela(linhasInativasDaTabela());
+    }
+
+    private List<String> buscaNomesDasLinhasDaTabela(List<WebElement> linhas) {
+        return linhas.stream()
                 .map(el -> el.findElement(nomeDaTabela).getText())
                 .collect(Collectors.toList());
     }
