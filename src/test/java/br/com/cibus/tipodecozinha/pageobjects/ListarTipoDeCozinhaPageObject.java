@@ -70,7 +70,9 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
     }
 
     public List<String> nomesDasLinhasDaTabela() {
-        return buscaNomesDasLinhasDaTabela(linhasDaTabela());
+        return linhasDaTabela().stream()
+                .map(el -> el.findElement(nomeDaTabela).getText())
+                .collect(Collectors.toList());
     }
 
     public List<String> nomesDasLinhasAtivasDaTabela() {
@@ -84,12 +86,6 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
         return linhasDaTabela().stream()
                 .filter(linha -> linha.findElement(situacaoDaTabela).getText().equals("Inativo"))
                 .map(linha -> linha.findElement(nomeDaTabela).getText())
-                .collect(Collectors.toList());
-    }
-
-    private List<String> buscaNomesDasLinhasDaTabela(List<WebElement> linhas) {
-        return linhas.stream()
-                .map(el -> el.findElement(nomeDaTabela).getText())
                 .collect(Collectors.toList());
     }
 
