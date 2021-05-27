@@ -29,6 +29,7 @@
                 <thead>
                 <tr>
                     <th>Nome</th>
+                    <th>Situação</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -39,6 +40,7 @@
                     <c:set var="acaoAtual" value="${tipoDeCozinha.isAtivo() ? 'Desativar' : 'Ativar'}"/>
                     <tr class="${trClass}">
                         <td class="nome-tipo-de-cozinha">${tipoDeCozinha.nome}</td>
+                        <td class="situacao-tipo-de-cozinha">${tipoDeCozinha.isAtivo() ? 'Ativo' : 'Inativo'}</td>
                         <td class="d-flex justify-content-end">
                             <form class="form-remover-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/toggleAtivo/${tipoDeCozinha.id}">
                                 <button class="button-${acaoAtual.toLowerCase()}-tipo-de-cozinha btn ${btnClass} me-2" type="submit">${acaoAtual}</button>

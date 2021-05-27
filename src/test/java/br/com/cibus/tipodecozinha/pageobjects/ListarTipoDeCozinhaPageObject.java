@@ -14,9 +14,8 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
 
     private By titulo = By.className("titulo");
     private By nomeDaTabela = By.className("nome-tipo-de-cozinha");
+    private By situacaoDaTabela = By.className("situacao-tipo-de-cozinha");
     private By linhasDaTabela = By.cssSelector("table.table tbody tr");
-    private By linhasAtivasDaTabela = By.cssSelector("table.table tbody tr.ativo");
-    private By linhasInativasDaTabela = By.cssSelector("table.table tbody tr.inativo");
     private By linkAdicionarNovo = By.className("link-adicionar-novo-tipo-de-cozinha");
     private By linkEditar = By.className("link-editar-tipo-de-cozinha");
     private By botaoAtivar = By.className("button-ativar-tipo-de-cozinha");
@@ -70,24 +69,22 @@ public class ListarTipoDeCozinhaPageObject extends PageObject {
         return browser.findElements(linhasDaTabela);
     }
 
-    private List<WebElement> linhasAtivasDaTabela() {
-        return browser.findElements(linhasAtivasDaTabela);
-    }
-
-    private List<WebElement> linhasInativasDaTabela() {
-        return browser.findElements(linhasInativasDaTabela);
-    }
-
     public List<String> nomesDasLinhasDaTabela() {
         return buscaNomesDasLinhasDaTabela(linhasDaTabela());
     }
 
     public List<String> nomesDasLinhasAtivasDaTabela() {
-        return buscaNomesDasLinhasDaTabela(linhasAtivasDaTabela());
+        return linhasDaTabela().stream()
+                .filter(linha -> linha.findElement(situacaoDaTabela).getText().equals("Ativo"))
+                .map(linha -> linha.findElement(nomeDaTabela).getText())
+                .collect(Collectors.toList());
     }
 
     public List<String> nomesDasLinhasInativasDaTabela() {
-        return buscaNomesDasLinhasDaTabela(linhasInativasDaTabela());
+        return linhasDaTabela().stream()
+                .filter(linha -> linha.findElement(situacaoDaTabela).getText().equals("Inativo"))
+                .map(linha -> linha.findElement(nomeDaTabela).getText())
+                .collect(Collectors.toList());
     }
 
     private List<String> buscaNomesDasLinhasDaTabela(List<WebElement> linhas) {
