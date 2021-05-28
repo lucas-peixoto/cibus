@@ -138,7 +138,6 @@ class TipoDeCozinhaControllerTest {
     @Test
     void toggleAtivar() throws Exception {
         TipoDeCozinha egipcia = new TipoDeCozinha("Egípcia");
-        assertThat(egipcia.isAtivo()).isFalse();
 
         when(tipoDeCozinhaRepository.findById(1L)).thenReturn(Optional.of(egipcia));
 
