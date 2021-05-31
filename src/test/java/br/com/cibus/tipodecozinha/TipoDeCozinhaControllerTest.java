@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -135,11 +136,15 @@ class TipoDeCozinhaControllerTest {
     }
 
     @Test
-    void remover() throws Exception {
-        mockMvc.perform(post("/admin/tipos-de-cozinha/remover/1"))
+    void toggleAtivar() throws Exception {
+        TipoDeCozinha egipcia = new TipoDeCozinha("Egípcia");
+
+        when(tipoDeCozinhaRepository.findById(1L)).thenReturn(Optional.of(egipcia));
+
+        mockMvc.perform(post("/admin/tipos-de-cozinha/toggleAtivo/1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/admin/tipos-de-cozinha"));
 
-        verify(tipoDeCozinhaRepository).deleteById(1L);
+        assertThat(egipcia.isAtivo()).isTrue();
     }
 }

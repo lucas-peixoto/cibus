@@ -29,18 +29,23 @@
                 <thead>
                 <tr>
                     <th>Nome</th>
+                    <th>Situação</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody class="align-middle">
                 <c:forEach items="${tiposDeCozinha}" var="tipoDeCozinha">
-                    <tr>
+                    <c:set var="trClass" value="${tipoDeCozinha.isAtivo() ? 'ativo' : 'inativo text-secondary'}"/>
+                    <c:set var="btnClass" value="${tipoDeCozinha.isAtivo() ? 'btn-danger' : 'btn-warning'}"/>
+                    <c:set var="acaoAtual" value="${tipoDeCozinha.isAtivo() ? 'Desativar' : 'Ativar'}"/>
+                    <tr class="${trClass}">
                         <td class="nome-tipo-de-cozinha">${tipoDeCozinha.nome}</td>
+                        <td class="situacao-tipo-de-cozinha">${tipoDeCozinha.isAtivo() ? 'Ativo' : 'Inativo'}</td>
                         <td class="d-flex justify-content-end">
-                            <a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}" class="link-editar-tipo-de-cozinha btn btn-primary me-2">Editar</a>
-                            <form class="form-remover-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/remover/${tipoDeCozinha.id}">
-                                <button class="button-remover-tipo-de-cozinha btn btn-danger" type="submit">Remover</button>
+                            <form class="form-remover-tipo-de-cozinha" method="post" action="/admin/tipos-de-cozinha/toggleAtivo/${tipoDeCozinha.id}">
+                                <button class="button-${acaoAtual.toLowerCase()}-tipo-de-cozinha btn ${btnClass} me-2" type="submit">${acaoAtual}</button>
                             </form>
+                            <a href="/admin/tipos-de-cozinha/editar/${tipoDeCozinha.id}" class="link-editar-tipo-de-cozinha btn btn-primary">Editar</a>
                         </td>
                     </tr>
                 </c:forEach>

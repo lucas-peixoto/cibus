@@ -12,6 +12,8 @@ public class TipoDeCozinha {
     @Column(unique = true, nullable = false)
     private String nome;
 
+    private boolean ativo;
+
     @Deprecated
     protected TipoDeCozinha() {
     }
@@ -20,9 +22,12 @@ public class TipoDeCozinha {
         this.nome = nome;
     }
 
-    public TipoDeCozinha(Long id, String nome) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
-        this.nome = nome;
     }
 
     public String getNome() {
@@ -33,12 +38,12 @@ public class TipoDeCozinha {
         this.nome = nome;
     }
 
-    public Long getId() {
-        return id;
+    public boolean isAtivo() {
+        return ativo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void toggleAtivo() {
+        this.ativo = !this.ativo;
     }
 
     @Override

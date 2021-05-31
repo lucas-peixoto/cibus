@@ -2,6 +2,7 @@ package br.com.cibus.tipodecozinha;
 
 import br.com.cibus.exceptions.NotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -71,9 +72,12 @@ public class TipoDeCozinhaController {
         return "redirect:/admin/tipos-de-cozinha";
     }
 
-    @PostMapping("/admin/tipos-de-cozinha/remover/{id}")
-    public String remover(@PathVariable("id") Long id) {
-        tipoDeCozinhaRepository.deleteById(id);
+    @Transactional
+    @PostMapping("/admin/tipos-de-cozinha/toggleAtivo/{id}")
+    public String ativar(@PathVariable Long id) {
+        TipoDeCozinha tipoDeCozinha = tipoDeCozinhaRepository.findById(id).orElseThrow(NotFoundException::new);
+        tipoDeCozinha.toggleAtivo();
+
         return "redirect:/admin/tipos-de-cozinha";
     }
 }

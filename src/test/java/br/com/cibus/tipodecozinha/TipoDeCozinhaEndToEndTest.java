@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 
@@ -125,16 +123,24 @@ public class TipoDeCozinhaEndToEndTest {
     }
 
     @Test
-    void remove() {
+    void toggleAtivo() {
         ListarTipoDeCozinhaPageObject listagem = abrirListagem();
 
-        String nomeRemovido = "Chinesa";
-        listagem.clickRemover(nomeRemovido);
+        String nomeDesativado = "Chinesa";
+        listagem.clickDesativar(nomeDesativado);
 
         assertThat(listagem.ehPaginaAtual()).isTrue();
-        assertThat(listagem.nomesDasLinhasDaTabela())
-                .doesNotContain(nomeRemovido)
-                .hasSize(3);
+        assertThat(listagem.nomesDasLinhasInativasDaTabela())
+                .contains(nomeDesativado)
+                .hasSize(1);
+
+        String nomeAtivado = "Chinesa";
+        listagem.clickAtivar(nomeAtivado);
+
+        assertThat(listagem.ehPaginaAtual()).isTrue();
+        assertThat(listagem.nomesDasLinhasAtivasDaTabela())
+                .contains(nomeAtivado)
+                .hasSize(4);
     }
 
     private String baseURL() {
