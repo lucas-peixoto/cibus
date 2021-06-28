@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -31,11 +32,14 @@ class RestauranteControllerTest {
     @Test
     void formularioEditar() throws Exception {
         Restaurante almanara = mock(Restaurante.class);
+        List<TipoDeCozinha> tiposDeCozinha = List.of(mock(TipoDeCozinha.class), mock(TipoDeCozinha.class));
         when(restauranteRepository.findBySlug("almanara")).thenReturn(Optional.of(almanara));
+        when(tipoDeCozinhaRepository.findByOrderByNomeAsc()).thenReturn(tiposDeCozinha);
 
         mockMvc.perform(get("/restaurantes/editar/almanara"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("restaurante", almanara))
+                .andExpect(model().attribute("tiposDeCozinha", tiposDeCozinha))
                 .andExpect(view().name("restaurante/formulario-editar"));
     }
 
