@@ -24,7 +24,7 @@
             <h3 class="titulo">Editar um Restaurante</h3>
             <hr class="mb-3">
             <form class="form-editar-tipo-de-cozinha" method="post" action="/restaurantes/editar/${restaurante.slug}">
-                <input type="hidden" name="slug" value="${restaurante.slug}">
+                <input type="hidden" name="id" value="${restaurante.id}">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
                     <input id="nome" type="text" name="nome" class="form-control" value="${restaurante.nome}"
@@ -76,6 +76,11 @@
                     <input id="tempoMaximoEntrega" type="number" name="tempoMaximoEntrega" class="form-control" value="${restaurante.tempoMaximoEntrega}"
                            step="1" required>
                     <form:errors path="restauranteParaEdicaoForm.tempoMaximoEntrega" cssClass="text-danger"/>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição:</label>
+                    <textarea id="descricao" name="descricao" class="form-control" rows="5" required>${restaurante.descricao}</textarea>
+                    <form:errors path="restauranteParaEdicaoForm.descricao" cssClass="text-danger"/>
                 </div>
 
                 <div class="d-flex justify-content-end">
