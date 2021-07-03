@@ -39,13 +39,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="cep" class="form-label">CEP:</label>
-                    <input id="cep" type="text" name="cep" class="form-control" value="${restaurante.cep}"
-                           maxlength="14" required>
+                    <input id="cep" type="text" name="cep" class="form-control" value="${restaurante.cep}" required>
                     <form:errors path="restauranteParaEdicaoForm.cep" cssClass="text-danger"/>
                 </div>
                 <div class="mb-3">
                     <label for="endereco" class="form-label">Endereço:</label>
-                    <textarea id="endereco" name="endereco" class="form-control" rows="2" required>${restaurante.endereco}</textarea>
+                    <textarea id="endereco" name="endereco" class="form-control" rows="2" maxlength="200" required>${restaurante.endereco}</textarea>
                     <form:errors path="restauranteParaEdicaoForm.endereco" cssClass="text-danger"/>
                 </div>
                 <div class="mb-3">
@@ -79,7 +78,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="descricao" class="form-label">Descrição:</label>
-                    <textarea id="descricao" name="descricao" class="form-control" rows="5" required>${restaurante.descricao}</textarea>
+                    <textarea id="descricao" name="descricao" class="form-control" rows="5">${restaurante.descricao}</textarea>
                     <form:errors path="restauranteParaEdicaoForm.descricao" cssClass="text-danger"/>
                 </div>
 
