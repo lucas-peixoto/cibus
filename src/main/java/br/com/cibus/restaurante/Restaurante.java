@@ -1,5 +1,6 @@
 package br.com.cibus.restaurante;
 
+import br.com.cibus.geral.validacao.Cnpj;
 import br.com.cibus.tipodecozinha.TipoDeCozinha;
 import org.hibernate.annotations.Type;
 
@@ -28,7 +29,7 @@ public class Restaurante {
     private String endereco;
 
     @NotNull
-    // TODO: adicionar validação
+    @Cnpj
     private String cnpj;
 
     @Type(type = "text")
